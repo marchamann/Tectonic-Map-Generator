@@ -1,0 +1,13 @@
+<project name="mapgen" default="deploy">
+
+	<target name="deploy">
+		  <jar destfile="mapgen.jar"
+       		basedir="classes"
+       		excludes="**/test/**">
+       		  <manifest>
+    			<attribute name="Main-Class" value="ca.hamann.mapgen.MapGenApplication"/>
+           	  </manifest>
+       		</jar>
+	</target>
+
+</project>

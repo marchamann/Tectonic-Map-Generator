@@ -1,4 +1,4 @@
-# Tectonic Map Generator  (TMG) # 
+# Tectonic Map Generator  (TMG)  
 
 ##What is it for?##
 
@@ -29,13 +29,13 @@ A big part of finding a solution that fit the "discrete methods" criterion was f
 
 Most of my previous attempts at TMG were based on a rectangular grid, equivalent roughly to a cylindrical projection such as the Mercator projection.  The problem with this is the same problem that such a projection has:  it severly distorts things close to the poles.
 
-Thanks to an [article]<http://www.zompist.com/howto3.htm> by [Mark Rosenfelder]<www.zompist.com>, I got the idea to use a Sinusoidal Separated grid instead.  This has the advantage that it is closer to a true spherical representation of a world map.
+Thanks to an [article](http://www.zompist.com/howto3.htm) by [Mark Rosenfelder](www.zompist.com), I got the idea to use a Sinusoidal Separated grid instead.  This has the advantage that it is closer to a true spherical representation of a world map.
 
 The one catch, which I luckily found a fairly straight-forward solution to, was that movement is a little bit more tricky, because unlike a rectangular grid, there is not a unique north and south neighbour for each point on the map, and east-west movement must proceed more slowly near the poles than at the equator, or else points on the same longitude will get out of sync (and create weird spirals in the map.)
 
 ###Elevation Colour Scheme###
 
-I found a pleasing colour scheme for colouring elevation maps at [USGS]<http://www-atlas.usgs.gov/shadedm.html>.
+I found a pleasing colour scheme for colouring elevation maps at [USGS](http://www-atlas.usgs.gov/shadedm.html).
 
 ###Plate Generation###
 

@@ -40,10 +40,8 @@ public class GeneratorScreen extends JFrame {
 	private SinusoidalGrid grid;
 	private MapConfiguration config = new MapConfiguration(HALFSPEAR);
 
-	private FileMenu fileMenu;
 	private DisplayModesMenu displayModesMenu;
 	private ExecutionPanel executionPanel;
-	private ProjectionsMenu projectionsMenu;
 
 	private BufferedImage image;
 
@@ -112,35 +110,36 @@ public class GeneratorScreen extends JFrame {
 	}
 
 	private void init() {
+		setJMenuBar(createMenuBar());
+
+		Container c = getContentPane();
+		c.setLayout(new BorderLayout());
+		c.add(createMainPanel(), "North");
+		c.add(createStatusBarPanel(), "South");
+	}
+
+	private JPanel createMainPanel() {
+		JPanel controls = initControls();
+
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 
 		imageHolder = new JLabel();
 		imageHolder.setHorizontalAlignment(JLabel.CENTER);
-
-		fileMenu = new FileMenu(this);
-		displayModesMenu = new DisplayModesMenu(this);
-		projectionsMenu = new ProjectionsMenu(this);
-		setJMenuBar(createMenuBar());
-
-		JPanel controls = initControls();
-
+		
 		mainPanel.add(imageHolder, "North");
 		mainPanel.add(controls, "South");
-
-		Container c = getContentPane();
-		c.setLayout(new BorderLayout());
-
-		c.add(mainPanel, "North");
-
-		c.add(createStatusBarPanel(), "South");
+		return mainPanel;
 	}
 
 	private JMenuBar createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.add(fileMenu);
+
+		displayModesMenu = new DisplayModesMenu(this);
+
+		menuBar.add(new FileMenu(this));
 		menuBar.add(displayModesMenu);
-		menuBar.add(projectionsMenu);
+		menuBar.add(new ProjectionsMenu(this));
 		return menuBar;
 	}
 

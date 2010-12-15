@@ -16,118 +16,118 @@ import ca.hamann.mapgen.sinusoidal.SinusoidalLocation;
 
 public class PlateSpreader {
 
-  private MapConfiguration config;
-  private MapProcess process;
-  private TectonicMap tectMap;
-  private TectonicNeighbourhoods neighbourhoods;
-  private Map edgeSets;
-  private Random floodFillRandom;
+	private MapConfiguration config;
+	private MapProcess process;
+	private TectonicMap tectMap;
+	private TectonicNeighbourhoods neighbourhoods;
+	private Map<Integer, LocationList> edgeSets;
+	private Random floodFillRandom;
 
-  public PlateSpreader(TectonicMap tectMap) {
-    this.tectMap = tectMap;
-    config = tectMap.getConfiguration();
-    neighbourhoods = tectMap.getNeighbourhoods();
-    initializeEdgeSets();
-    floodFillRandom = config.getRandom();
-  }
+	public PlateSpreader(TectonicMap tectMap) {
+		this.tectMap = tectMap;
+		config = tectMap.getConfiguration();
+		neighbourhoods = tectMap.getNeighbourhoods();
+		initializeEdgeSets();
+		floodFillRandom = config.getRandom();
+	}
 
-  private void initializeEdgeSets() {
-    int plateCount = config.getPlateCount();
+	private void initializeEdgeSets() {
+		int plateCount = config.getPlateCount();
 
-    edgeSets = new TreeMap();
+		edgeSets = new TreeMap<Integer, LocationList>();
 
-    for (int i = 1; i < plateCount; i++) {
-      edgeSets.put(new Integer(i), new LocationList());
-    }
+		for (int i = 1; i < plateCount; i++) {
+			edgeSets.put(new Integer(i), new LocationList());
+		}
 
-  }
+	}
 
-  public LocationList getNeighbourSet(int plateIndex) {
-    Integer index = new Integer(plateIndex);
-    LocationList result = (LocationList) edgeSets.get(index);
+	public LocationList getNeighbourSet(int plateIndex) {
+		Integer index = new Integer(plateIndex);
+		LocationList result = edgeSets.get(index);
 
-    if (result == null) {
-      result = new LocationList();
-      edgeSets.put(index, result);
-    }
+		if (result == null) {
+			result = new LocationList();
+			edgeSets.put(index, result);
+		}
 
-    return result;
-  }
+		return result;
+	}
 
-  public SinusoidalLocation spreadPlateByOne(int plateIndex) {
-    LocationList neighbourSet = getNeighbourSet(plateIndex);
+	public SinusoidalLocation spreadPlateByOne(int plateIndex) {
+		LocationList neighbourSet = getNeighbourSet(plateIndex);
 
-    if (neighbourSet.isEmpty()) {
-      return null;
-    }
+		if (neighbourSet.isEmpty()) {
+			return null;
+		}
 
-    int nextNeighbour = 0;
-    if (floodFillRandom != null) {
-      nextNeighbour = floodFillRandom.nextInt(neighbourSet.size());
-    }
-    SinusoidalLocation loc = neighbourSet.remove(nextNeighbour);
+		int nextNeighbour = 0;
+		if (floodFillRandom != null) {
+			nextNeighbour = floodFillRandom.nextInt(neighbourSet.size());
+		}
+		SinusoidalLocation loc = neighbourSet.remove(nextNeighbour);
 
-    if (tectMap.getPlateIndex(loc) == 0) {
-      int savedPlate = plateIndex;
-      if (savedPlate == 0) {
-        savedPlate = -1;
-      }
-      tectMap.setPlateIndex(loc, savedPlate);
+		if (tectMap.getPlateIndex(loc) == 0) {
+			int savedPlate = plateIndex;
+			if (savedPlate == 0) {
+				savedPlate = -1;
+			}
+			tectMap.setPlateIndex(loc, savedPlate);
 
-      LocationCollection neighbours = neighbourhoods.getNeighbours(loc);
-      LocationIterator iterator = neighbours.iterator();
-      while (iterator.hasNext()) {
-        SinusoidalLocation next = iterator.next();
-        if (tectMap.getPlateIndex(next) == 0) {
-          neighbourSet.add(next);
-        }
-      }
+			LocationCollection neighbours = neighbourhoods.getNeighbours(loc);
+			LocationIterator iterator = neighbours.iterator();
+			while (iterator.hasNext()) {
+				SinusoidalLocation next = iterator.next();
+				if (tectMap.getPlateIndex(next) == 0) {
+					neighbourSet.add(next);
+				}
+			}
 
-      return loc;
-    }
+			return loc;
+		}
 
-    return spreadPlateByOne(plateIndex);
+		return spreadPlateByOne(plateIndex);
 
-  }
+	}
 
-  public TectonicMap floodFillPlates() {
-    Set keys = edgeSets.keySet();
-    boolean done = false;
-    int count = 0;
-    while (!done) {
-      done = true;
+	public TectonicMap floodFillPlates() {
+		Set<Integer> keys = edgeSets.keySet();
+		boolean done = false;
+		int count = 0;
+		while (!done) {
+			done = true;
 
-      Iterator iterator = keys.iterator();
+			Iterator<Integer> iterator = keys.iterator();
 
-      while (iterator.hasNext()) {
-        Integer integer = (Integer) iterator.next();
-        SinusoidalLocation loc = spreadPlateByOne(integer.intValue());
+			while (iterator.hasNext()) {
+				Integer integer = iterator.next();
+				SinusoidalLocation loc = spreadPlateByOne(integer.intValue());
 
-        if (loc != null) {
-          done = false;
-        }
-      }
-      if (count++ % 100 == 0) {
-        updateGui();
-      }
-    }
+				if (loc != null) {
+					done = false;
+				}
+			}
+			if (count++ % 100 == 0) {
+				updateGui();
+			}
+		}
 
-    return tectMap;
-  }
+		return tectMap;
+	}
 
-  protected void updateGui() {
-    if (process != null) {
-      process.setTectonicMap(tectMap);
-      process.updateGui();
-    }
-  }
+	protected void updateGui() {
+		if (process != null) {
+			process.setTectonicMap(tectMap);
+			process.updateGui();
+		}
+	}
 
-  public void setProcess(MapProcess process) {
-    this.process = process;
-  }
+	public void setProcess(MapProcess process) {
+		this.process = process;
+	}
 
-  public void setEdgeSets(Map map) {
-    edgeSets = map;
-  }
+	public void setEdgeSets(Map<Integer, LocationList> map) {
+		edgeSets = map;
+	}
 
 }

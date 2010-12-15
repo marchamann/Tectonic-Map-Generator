@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://hamann.ca/mapgen"
+            xmlns="http://hamann.ca/mapgen"
+            elementFormDefault="qualified">
+    <xsd:element name="tectonic-map">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="location" minOccurs="0" maxOccurs="unbounded"/>
+            </xsd:sequence>
+		<xsd:attribute name="halfSpearWidth" type="xsd:positiveInteger" use="required" />
+		
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="tectonic-location">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="surface-plate" minOccurs="1" maxOccurs="1"/>
+                <xsd:element ref="subducted-plate" minOccurs="1" maxOccurs="1"/>
+                <xsd:element ref="collisions" minOccurs="1" maxOccurs="1"/>
+                <xsd:element ref="subduction-zone" minOccurs="1" maxOccurs="1"/>
+                <xsd:element ref="isSeaPlate" minOccurs="1" maxOccurs="1"/>
+            </xsd:sequence>
+		<xsd:attribute name="xcoord" type="xsd:nonNegativeInteger" use="required" />
+		<xsd:attribute name="ycoord" type="xsd:nonNegativeInteger" use="required" />
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="surface-plate" type="xsd:nonNegativeInteger"/>
+    <xsd:element name="subducted-plate" type="xsd:nonNegativeInteger"/>
+    <xsd:element name="collisions" type="xsd:nonNegativeInteger"/>
+    <xsd:element name="subduction-zone" type="xsd:boolean"/>
+    <xsd:element name="isSeaPlate" type="xsd:boolean"/>
+</xsd:schema>
+

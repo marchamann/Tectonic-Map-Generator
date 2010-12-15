@@ -8,10 +8,10 @@ import ca.hamann.mapgen.containers.LocationSet;
 import ca.hamann.mapgen.sinusoidal.SinusoidalLocation;
 
 public class DrainageClosureLookup {
-  private Map closures;
+  private Map<SinusoidalLocation, LocationCollection> closures;
 
   public DrainageClosureLookup() {
-    closures = new TreeMap();
+		closures = new TreeMap<SinusoidalLocation, LocationCollection>();
   }
 
   public void addToClosure(SinusoidalLocation key, SinusoidalLocation member) {
@@ -24,6 +24,6 @@ public class DrainageClosureLookup {
   }
 
   private LocationCollection getClosure(SinusoidalLocation key) {
-    return (LocationCollection) closures.get(key);
+    return closures.get(key);
   }
 }

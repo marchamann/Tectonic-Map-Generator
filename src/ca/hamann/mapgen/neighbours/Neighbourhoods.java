@@ -1,6 +1,7 @@
 package ca.hamann.mapgen.neighbours;
 
 import java.util.Comparator;
+
 import ca.hamann.mapgen.containers.LocationCollection;
 import ca.hamann.mapgen.containers.LocationList;
 import ca.hamann.mapgen.containers.traversal.LocationContainerTraversal;
@@ -58,7 +59,7 @@ public class Neighbourhoods {
 
   public LocationList getSortedNeighbours(
     SinusoidalLocation loc,
-    Comparator comparator) {
+			Comparator<SinusoidalLocation> comparator) {
     return getNeighbours(loc).getOrderedLocations(comparator);
   }
 }

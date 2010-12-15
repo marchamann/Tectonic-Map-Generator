@@ -125,7 +125,7 @@ public class TectonicMap {
 
 	public void setPlates(TectonicPlates plates) {
 		this.plates = plates;
-		Iterator iterator = plates.iterator();
+		Iterator<Plate> iterator = plates.iterator();
 
 		while (iterator.hasNext()) {
 			Plate plate = (Plate) iterator.next();

@@ -3,7 +3,9 @@ package ca.hamann.mapgen.sinusoidal;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import ca.hamann.mapgen.containers.*;
+import ca.hamann.mapgen.containers.LocationCollectionIterator;
+import ca.hamann.mapgen.containers.LocationContainer;
+import ca.hamann.mapgen.containers.LocationIterator;
 import ca.hamann.mapgen.gui.colourers.LocationColourer;
 import ca.hamann.mapgen.gui.projections.Projection;
 import ca.hamann.mapgen.neighbours.Neighbourhoods;
@@ -17,7 +19,7 @@ public class SinusoidalGrid implements LocationContainer {
 
   private BasicMover mover;
   private Neighbourhoods neighbourhoods;
-  private ArrayList iterationList;
+	private ArrayList<SinusoidalLocation> iterationList;
   private NonLinearMapStorage ordinals;
 
   public SinusoidalGrid(int halfSpearWidth) {
@@ -38,7 +40,7 @@ public class SinusoidalGrid implements LocationContainer {
 
   private void initIterationList() {
     ordinals = new NonLinearMapStorage(this);
-    iterationList = new ArrayList();
+		iterationList = new ArrayList<SinusoidalLocation>();
     SinusoidalLocation next = getInitialLocation();
     while (next != null) {
       int ordinal = iterationList.size();

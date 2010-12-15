@@ -6,13 +6,13 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import ca.hamann.mapgen.direction.*;
+import ca.hamann.mapgen.direction.DirectionSequence;
 
 public class TectonicPlates {
 
 	private int plateCount;
-	private Map plates;
-	private Set subductionRelations;
+	private Map<Integer, Plate> plates;
+	private Set<SubductionRelation> subductionRelations;
 	private int seaPlateCount;
 
 	public TectonicPlates(int plateCount) {
@@ -22,11 +22,11 @@ public class TectonicPlates {
 	}
 
 	private void initializePlates() {
-		plates = new TreeMap();
+		plates = new TreeMap<Integer, Plate>();
 		for (int i = 1; i <= plateCount; i++) {
 			setPlate(i, new Plate(i));
 		}
-		subductionRelations = new TreeSet();
+		subductionRelations = new TreeSet<SubductionRelation>();
 
 	}
 
@@ -65,14 +65,14 @@ public class TectonicPlates {
 	}
 
 	public Plate getPlate(int index) {
-		return (Plate) plates.get(new Integer(index));
+		return plates.get(new Integer(index));
 	}
 
 	public void setPlate(int index, Plate plate) {
 		plates.put(new Integer(index), plate);
 	}
 
-	public Iterator iterator() {
+	public Iterator<Plate> iterator() {
 		return plates.values().iterator();
 	}
 
@@ -89,12 +89,12 @@ public class TectonicPlates {
 	}
 
 	public int getBiggestPlate() {
-		Iterator iterator = iterator();
+		Iterator<Plate> iterator = iterator();
 		int result = 0;
 		int biggestCount = 0;
 
 		while (iterator.hasNext()) {
-			Plate plate = (Plate) iterator.next();
+			Plate plate = iterator.next();
 			if (plate.getCount() > biggestCount) {
 				result = plate.getIndex();
 				biggestCount = plate.getCount();

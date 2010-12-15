@@ -5,8 +5,11 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -17,160 +20,166 @@ import ca.hamann.mapgen.drainage.DrainageProcessor;
 import ca.hamann.mapgen.tectonic.Eroder;
 
 public class ExecutionPanel extends JPanel {
-  private GeneratorScreen screen;
+	private GeneratorScreen screen;
 
-  private JButton drift, erosion, rotateEast, rotateWest, addRivers;
-  private JTextField iterationsInput;
+	private JButton drift, erosion, rotateEast, rotateWest, addRivers;
+	private JTextField iterationsInput;
 
-  public ExecutionPanel(GeneratorScreen screen) {
-    this.screen = screen;
-    init();
-  }
+	private List<JComponent> activeComponents = new ArrayList<JComponent>();
 
-  private void init() {
-    initDriftButton();
-    initErosionButton();
-    initRotateEastButton();
-    initRotateWestButton();
-    initAddRiversButton();
+	public ExecutionPanel(GeneratorScreen screen) {
+		this.screen = screen;
+		init();
+	}
 
-    iterationsInput = new JTextField(6);
-    iterationsInput.setText("1");
-    iterationsInput.setHorizontalAlignment(JTextField.RIGHT);
+	private void init() {
+		initDriftButton();
+		initErosionButton();
+		initRotateEastButton();
+		initRotateWestButton();
+		initAddRiversButton();
 
-    JPanel iteratedOperationsButtons = new JPanel();
+		iterationsInput = new JTextField(6);
+		iterationsInput.setText("1");
+		iterationsInput.setHorizontalAlignment(JTextField.RIGHT);
 
-    iteratedOperationsButtons.add(drift);
-    iteratedOperationsButtons.add(erosion);
+		JPanel iteratedOperationsButtons = new JPanel();
 
-    JPanel iteratedOperations = new JPanel();
-    iteratedOperations.setBorder(new EtchedBorder());
+		iteratedOperationsButtons.add(drift);
+		iteratedOperationsButtons.add(erosion);
 
-    iteratedOperations.add(new JLabel("Iterated Actions"));
-    iteratedOperations.add(iteratedOperationsButtons);
+		JPanel iteratedOperations = new JPanel();
+		iteratedOperations.setBorder(new EtchedBorder());
 
-    JPanel iterationsInputPanel = new JPanel();
-    iterationsInputPanel.setBorder(new EtchedBorder());
-    iterationsInputPanel.add(new JLabel("Iterations"));
-    iterationsInputPanel.add(iterationsInput);
+		iteratedOperations.add(new JLabel("Iterated Actions"));
+		iteratedOperations.add(iteratedOperationsButtons);
 
-    iteratedOperations.add(iterationsInputPanel);
+		JPanel iterationsInputPanel = new JPanel();
+		iterationsInputPanel.setBorder(new EtchedBorder());
+		iterationsInputPanel.add(new JLabel("Iterations"));
+		iterationsInputPanel.add(iterationsInput);
+		activeComponents.add(iterationsInput);
 
-    JPanel rivers = new JPanel();
-    rivers.setBorder(new EtchedBorder());
-    rivers.add(new JLabel("Rivers"));
-    rivers.add(addRivers);
+		iteratedOperations.add(iterationsInputPanel);
 
-    JPanel rotations = new JPanel();
-    rotations.setBorder(new EtchedBorder());
-    rotations.setLayout(new GridBagLayout());
+		JPanel rivers = new JPanel();
+		rivers.setBorder(new EtchedBorder());
+		rivers.add(new JLabel("Rivers"));
+		rivers.add(addRivers);
 
-    GridBagConstraints constraints = new GridBagConstraints();
+		JPanel rotations = new JPanel();
+		rotations.setBorder(new EtchedBorder());
+		rotations.setLayout(new GridBagLayout());
 
-    constraints.gridx = 0;
-    constraints.gridy = 1;
-    rotations.add(rotateWest, constraints);
-    constraints.gridx = 1;
-    rotations.add(rotateEast, constraints);
+		GridBagConstraints constraints = new GridBagConstraints();
 
-    constraints.gridx = 0;
-    constraints.gridy = 0;
-    constraints.gridwidth = 2;
-    rotations.add(new JLabel("Rotate"), constraints);
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+		rotations.add(rotateWest, constraints);
+		constraints.gridx = 1;
+		rotations.add(rotateEast, constraints);
 
-    add(iteratedOperations);
-    add(rivers);
-    add(rotations);
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.gridwidth = 2;
+		rotations.add(new JLabel("Rotate"), constraints);
 
-  }
+		add(iteratedOperations);
+		add(rivers);
+		add(rotations);
 
-  private void initDriftButton() {
-    drift = new JButton("Drift");
-    drift.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        screen.setEnabledControls(false);
-        MapProcess driftProcess = screen.getNewMapProcess();
-        driftProcess.setProcessor(screen.getDrifter());
-        driftProcess.setIterations(getIterations());
-        driftProcess.start();
-      }
-    });
-  }
+	}
 
-  private void initErosionButton() {
-    erosion = new JButton("Erosion");
+	private void initDriftButton() {
+		drift = new JButton("Drift");
+		drift.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				screen.setEnabledControls(false);
+				MapProcess driftProcess = screen.getNewMapProcess();
+				driftProcess.setProcessor(screen.getDrifter());
+				driftProcess.setIterations(getIterations());
+				driftProcess.start();
+			}
+		});
+		activeComponents.add(drift);
+	}
 
-    erosion.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        screen.setEnabledControls(false);
-        MapProcess erosionProcess = screen.getNewMapProcess();
-        erosionProcess.setProcessor(new Eroder(screen.getTectonicMap()));
-        erosionProcess.setIterations(getIterations());
-        erosionProcess.start();
-      }
-    });
-  }
+	private void initErosionButton() {
+		erosion = new JButton("Erosion");
 
-  private void initRotateEastButton() {
-    rotateEast = new JButton("East");
+		erosion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				screen.setEnabledControls(false);
+				MapProcess erosionProcess = screen.getNewMapProcess();
+				erosionProcess.setProcessor(new Eroder(screen.getTectonicMap()));
+				erosionProcess.setIterations(getIterations());
+				erosionProcess.start();
+			}
+		});
+	}
 
-    rotateEast.setMnemonic(KeyEvent.VK_PERIOD);
+	private void initRotateEastButton() {
+		rotateEast = new JButton("East");
 
-    rotateEast.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        screen.setEnabledControls(false);
-        MapProcess rotateProcess = screen.getNewMapProcess();
-        rotateProcess.setProcessor(new Rotater(screen.getTectonicMap(), true));
-        rotateProcess.setIterations(1);
-        rotateProcess.start();
-      }
-    });
-  }
+		rotateEast.setMnemonic(KeyEvent.VK_PERIOD);
 
-  private void initRotateWestButton() {
-    rotateWest = new JButton("West");
+		rotateEast.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				screen.setEnabledControls(false);
+				MapProcess rotateProcess = screen.getNewMapProcess();
+				rotateProcess.setProcessor(new Rotater(screen.getTectonicMap(),
+						true));
+				rotateProcess.setIterations(1);
+				rotateProcess.start();
+			}
+		});
+	}
 
-    rotateWest.setMnemonic(KeyEvent.VK_COMMA);
+	private void initRotateWestButton() {
+		rotateWest = new JButton("West");
 
-    rotateWest.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        screen.setEnabledControls(false);
-        MapProcess rotateProcess = screen.getNewMapProcess();
-        rotateProcess.setProcessor(new Rotater(screen.getTectonicMap(), false));
-        rotateProcess.setIterations(1);
-        rotateProcess.start();
-      }
-    });
-  }
+		rotateWest.setMnemonic(KeyEvent.VK_COMMA);
 
-  private void initAddRiversButton() {
-    addRivers = new JButton("Add Rivers");
+		rotateWest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				screen.setEnabledControls(false);
+				MapProcess rotateProcess = screen.getNewMapProcess();
+				rotateProcess.setProcessor(new Rotater(screen.getTectonicMap(),
+						false));
+				rotateProcess.setIterations(1);
+				rotateProcess.start();
+			}
+		});
+	}
 
-    addRivers.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent e) {
-        screen.setEnabledControls(false);
+	private void initAddRiversButton() {
+		addRivers = new JButton("Add Rivers");
 
-        MapProcess riverProcess = screen.getNewMapProcess();
-        riverProcess.setProcessor(
-          new DrainageProcessor(screen.getTectonicMap()));
-        riverProcess.setIterations(1);
-        riverProcess.start();
-      }
-    });
-  }
+		addRivers.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				screen.setEnabledControls(false);
 
-  public void setEnableControls(boolean enabled) {
-    drift.setEnabled(enabled);
-    erosion.setEnabled(enabled);
-    iterationsInput.setEnabled(enabled);
+				MapProcess riverProcess = screen.getNewMapProcess();
+				riverProcess.setProcessor(new DrainageProcessor(screen
+						.getTectonicMap()));
+				riverProcess.setIterations(1);
+				riverProcess.start();
+			}
+		});
+	}
 
-    rotateEast.setEnabled(enabled);
-    rotateWest.setEnabled(enabled);
+	public void setEnableControls(boolean enabled) {
+		drift.setEnabled(enabled);
+		erosion.setEnabled(enabled);
+		iterationsInput.setEnabled(enabled);
 
-    addRivers.setEnabled(enabled);
-  }
+		rotateEast.setEnabled(enabled);
+		rotateWest.setEnabled(enabled);
 
-  public int getIterations() {
-    return Integer.parseInt(iterationsInput.getText().trim());
-  }
+		addRivers.setEnabled(enabled);
+	}
+
+	public int getIterations() {
+		return Integer.parseInt(iterationsInput.getText().trim());
+	}
 }

@@ -5,11 +5,11 @@ import java.util.TreeMap;
 public class BasicMover implements SinusoidalMover {
 
   protected SinusoidalGrid grid;
-  private TreeMap moveEastMap;
+	private TreeMap<SinusoidalLocation, SinusoidalLocation> moveEastMap;
 
   public BasicMover(SinusoidalGrid grid) {
     this.grid = grid;
-    moveEastMap = new TreeMap();
+    moveEastMap = new TreeMap<SinusoidalLocation, SinusoidalLocation>();
   }
 
   public SinusoidalLocation moveNorth(SinusoidalLocation loc) {
@@ -22,7 +22,7 @@ public class BasicMover implements SinusoidalMover {
 
   public SinusoidalLocation moveEast(SinusoidalLocation loc) {
       SinusoidalLocation result = //null;
-   (SinusoidalLocation) moveEastMap.get(loc);
+   moveEastMap.get(loc);
     if (result == null) {
       result = moveHorizontal(loc, true);
       moveEastMap.put(loc, result);

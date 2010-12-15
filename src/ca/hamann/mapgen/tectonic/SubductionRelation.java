@@ -1,6 +1,6 @@
 package ca.hamann.mapgen.tectonic;
 
-public class SubductionRelation implements Comparable {
+public class SubductionRelation implements Comparable<SubductionRelation> {
 
 	private int top, bottom;
 
@@ -11,13 +11,12 @@ public class SubductionRelation implements Comparable {
 
 	public boolean equals(Object obj) {
 		if (obj != null && obj.getClass() == getClass()) {
-			return compareTo(obj) == 0;
+			return compareTo((SubductionRelation) obj) == 0;
 		}
 		return false;
 	}
 
-	public int compareTo(Object obj) {
-		SubductionRelation rel = (SubductionRelation) obj;
+	public int compareTo(SubductionRelation rel) {
 
 		if (rel.top == top && rel.bottom == bottom) {
 			return 0;

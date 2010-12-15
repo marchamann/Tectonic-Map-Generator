@@ -10,10 +10,10 @@ import ca.hamann.mapgen.sinusoidal.SinusoidalLocation;
 public class DrainageGraph {
 
   private DrainageProcessor processor;
-  private Map graphMap;
+	private Map<SinusoidalLocation, SinusoidalLocation> graphMap;
 
   public DrainageGraph(DrainageProcessor processor) {
-    graphMap = new TreeMap();
+    graphMap = new TreeMap<SinusoidalLocation, SinusoidalLocation>();
     this.processor = processor;
   }
 
@@ -33,7 +33,7 @@ public class DrainageGraph {
   }
 
   public SinusoidalLocation getDrainageLocation(SinusoidalLocation from) {
-    return (SinusoidalLocation) graphMap.get(from);
+    return graphMap.get(from);
   }
 
   public SinusoidalLocation getTransitiveTerminus(SinusoidalLocation loc) {
@@ -52,10 +52,10 @@ public class DrainageGraph {
   }
 
   public boolean validate() {
-    Iterator iterator = graphMap.keySet().iterator();
+    Iterator<SinusoidalLocation> iterator = graphMap.keySet().iterator();
 
     while (iterator.hasNext()) {
-      SinusoidalLocation next = (SinusoidalLocation) iterator.next();
+      SinusoidalLocation next = iterator.next();
       SinusoidalLocation terminus = getTransitiveTerminus(next);
       if (terminus == null || !processor.isNextToSea(terminus)) {
         return false;
@@ -65,10 +65,10 @@ public class DrainageGraph {
   }
 
   public boolean checkIncreasingFlow() {
-    Iterator iterator = graphMap.keySet().iterator();
+    Iterator<SinusoidalLocation> iterator = graphMap.keySet().iterator();
 
     while (iterator.hasNext()) {
-      SinusoidalLocation next = (SinusoidalLocation) iterator.next();
+      SinusoidalLocation next = iterator.next();
       SinusoidalLocation drain = getDrainageLocation(next);
       if (processor.getFlow(drain) <= processor.getFlow(next)) {
         return false;

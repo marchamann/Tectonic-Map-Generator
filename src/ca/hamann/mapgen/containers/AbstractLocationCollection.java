@@ -6,73 +6,72 @@ import java.util.Comparator;
 
 import ca.hamann.mapgen.sinusoidal.SinusoidalLocation;
 
-public abstract class AbstractLocationCollection
-  implements LocationCollection {
+public abstract class AbstractLocationCollection implements LocationCollection {
 
-  protected Collection locations;
+	protected Collection<SinusoidalLocation> locations;
 
-  public AbstractLocationCollection(Collection collection) {
-    locations = collection;
-  }
+	public AbstractLocationCollection(Collection<SinusoidalLocation> collection) {
+		locations = collection;
+	}
 
-  public void addAll(LocationCollection locations) {
-    LocationIterator iterator = locations.iterator();
+	public void addAll(LocationCollection locations) {
+		LocationIterator iterator = locations.iterator();
 
-    while (iterator.hasNext()) {
-      add(iterator.next());
-    }
-  }
+		while (iterator.hasNext()) {
+			add(iterator.next());
+		}
+	}
 
-  public LocationIterator iterator() {
-    return new LocationCollectionIterator(locations.iterator());
-  }
+	public LocationIterator iterator() {
+		return new LocationCollectionIterator(locations.iterator());
+	}
 
-  public boolean isEmpty() {
-    return locations.isEmpty();
-  }
+	public boolean isEmpty() {
+		return locations.isEmpty();
+	}
 
-  public int size() {
-    return locations.size();
-  }
+	public int size() {
+		return locations.size();
+	}
 
-  public boolean add(SinusoidalLocation location) {
-    return locations.add(location);
-  }
+	public boolean add(SinusoidalLocation location) {
+		return locations.add(location);
+	}
 
-  public Object[] toArray() {
-    return locations.toArray();
-  }
+	public SinusoidalLocation[] toArray() {
+		return (SinusoidalLocation[]) locations.toArray();
+	}
 
-  public boolean contains(SinusoidalLocation loc) {
-    return locations.contains(loc);
-  }
+	public boolean contains(SinusoidalLocation loc) {
+		return locations.contains(loc);
+	}
 
-  public boolean remove(SinusoidalLocation loc) {
-    return locations.remove(loc);
-  }
+	public boolean remove(SinusoidalLocation loc) {
+		return locations.remove(loc);
+	}
 
-  public void printOut() {
-    LocationIterator iterator = iterator();
+	public void printOut() {
+		LocationIterator iterator = iterator();
 
-    while (iterator.hasNext()) {
-      System.out.println(iterator.next());
-    }
-  }
+		while (iterator.hasNext()) {
+			System.out.println(iterator.next());
+		}
+	}
 
-  public LocationList getOrderedLocations(Comparator comparator) {
-    LocationList result = new LocationList();
+	public LocationList getOrderedLocations(
+			Comparator<SinusoidalLocation> comparator) {
+		LocationList result = new LocationList();
 
-    Object[] nLocs = locations.toArray();
+		SinusoidalLocation[] nLocs = locations
+				.toArray(new SinusoidalLocation[] {});
 
-    Arrays.sort(nLocs, comparator);
+		Arrays.sort(nLocs, comparator);
 
-    for (int i = 0; i < nLocs.length; i++) {
-      result.add((SinusoidalLocation) nLocs[i]);
-    }
+		for (int i = 0; i < nLocs.length; i++) {
+			result.add((SinusoidalLocation) nLocs[i]);
+		}
 
-    return result;
-  }
-  
-  
+		return result;
+	}
 
 }

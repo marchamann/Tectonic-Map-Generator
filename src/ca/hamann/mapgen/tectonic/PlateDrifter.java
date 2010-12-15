@@ -137,7 +137,7 @@ public class PlateDrifter implements MapProcessor {
 
 	private void splitPlatesIfNecessary(TectonicMap tectMap) {
 		TectonicPlates plates = tectMap.getPlates();
-		Iterator iterator = plates.iterator();
+		Iterator<Plate> iterator = plates.iterator();
 		while (iterator.hasNext()) {
 			Plate plate = (Plate) iterator.next();
 			if (plate.getCount() == 0) {

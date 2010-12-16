@@ -35,25 +35,32 @@ public class ExecutionPanel extends JPanel {
 
 	private JPanel createIteratedOperationsPanel() {
 		iterationsInput = initIterationsInput();
-
-		JPanel iteratedOperationsButtons = new JPanel();
-
-		iteratedOperationsButtons.add(initDriftButton());
-		iteratedOperationsButtons.add(initErosionButton());
+		activeComponents.add(iterationsInput);
 
 		JPanel iteratedOperations = new JPanel();
 		iteratedOperations.setBorder(new EtchedBorder());
 
 		iteratedOperations.add(new JLabel("Iterated Actions"));
-		iteratedOperations.add(iteratedOperationsButtons);
+		iteratedOperations.add(createdIteratedOperationsButtons());
 
+		iteratedOperations.add(createIterationsInputPanel());
+		return iteratedOperations;
+	}
+
+	private JPanel createIterationsInputPanel() {
 		JPanel iterationsInputPanel = new JPanel();
 		iterationsInputPanel.setBorder(new EtchedBorder());
 		iterationsInputPanel.add(new JLabel("Iterations"));
 		iterationsInputPanel.add(iterationsInput);
+		return iterationsInputPanel;
+	}
 
-		iteratedOperations.add(iterationsInputPanel);
-		return iteratedOperations;
+	private JPanel createdIteratedOperationsButtons() {
+		JPanel iteratedOperationsButtons = new JPanel();
+
+		iteratedOperationsButtons.add(initDriftButton());
+		iteratedOperationsButtons.add(initErosionButton());
+		return iteratedOperationsButtons;
 	}
 
 	private JPanel createRiversPanel() {
@@ -185,7 +192,6 @@ public class ExecutionPanel extends JPanel {
 		for (JComponent c : activeComponents) {
 			c.setEnabled(enabled);
 		}
-		iterationsInput.setEnabled(enabled);
 	}
 
 	public int getIterations() {

@@ -37,7 +37,7 @@ public class GeneratorScreen extends JFrame {
 	private LocationColourer currentColourer;
 
 	private TectonicMap tectMap;
-	private SinusoidalGrid grid;
+
 	private MapConfiguration config = new MapConfiguration(HALFSPEAR);
 
 	private DisplayModesMenu displayModesMenu;
@@ -51,7 +51,7 @@ public class GeneratorScreen extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		setCurrentColourer(new RiversColourer(tectMap));
-		setCurrentProjection(new SinusoidalSeparatedProjection(grid));
+		setCurrentProjection(new SinusoidalSeparatedProjection(config.getGrid()));
 
 		init();
 
@@ -63,7 +63,7 @@ public class GeneratorScreen extends JFrame {
 	}
 
 	private void initImage() {
-		grid = new SinusoidalGrid(HALFSPEAR);
+		SinusoidalGrid grid = config.getGrid();
 		int width = grid.getWidth();
 		int height = grid.getHeight();
 
@@ -78,7 +78,6 @@ public class GeneratorScreen extends JFrame {
 	}
 
 	public void initMaps(MapConfiguration config) {
-		grid = config.getGrid();
 		PlateGenerator gen = new PlateGenerator(config);
 
 		MapProcess plateProcess = new MapProcess(this);
@@ -97,7 +96,7 @@ public class GeneratorScreen extends JFrame {
 	public void updateImage() {
 
 		if (tectMap != null) {
-			image = grid.convertToImage(getCurrentColourer(),
+			image = tectMap.getGrid().convertToImage(getCurrentColourer(),
 					getCurrentProjection());
 		}
 
@@ -202,7 +201,7 @@ public class GeneratorScreen extends JFrame {
 	}
 
 	protected SinusoidalGrid getGrid() {
-		return grid;
+		return config.getGrid();
 	}
 
 	public BufferedImage getImage() {

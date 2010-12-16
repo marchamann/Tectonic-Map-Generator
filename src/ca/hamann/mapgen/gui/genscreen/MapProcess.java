@@ -3,10 +3,9 @@ package ca.hamann.mapgen.gui.genscreen;
 import javax.swing.SwingUtilities;
 
 import ca.hamann.mapgen.gui.MapProcessor;
-import ca.hamann.mapgen.gui.SwingWorker;
 import ca.hamann.mapgen.tectonic.TectonicMap;
 
-public class MapProcess extends SwingWorker {
+public class MapProcess implements Runnable {
 	private GeneratorScreen screen;
 	private MapProcessor processor;
 	private int iterations;
@@ -20,17 +19,24 @@ public class MapProcess extends SwingWorker {
 		this.screen = screen;
 	}
 
-	public Object construct() {
-		updateGui();
-		for (int i = 1; i <= iterations; i++) {
-			tectMap = processor.processMap();
-			processor.afterProcess(screen);
-
-			progressCount = i;
-
+	public void run() {
+		try {
 			updateGui();
+			for (int i = 1; i <= iterations; i++) {
+				tectMap = processor.processMap();
+				processor.afterProcess(screen);
+
+				progressCount = i;
+
+				updateGui();
+			}
+		} finally {
+			finished();
 		}
-		return null;
+	}
+
+	public void start() {
+		new Thread(this).start();
 	}
 
 	public void updateGui() {

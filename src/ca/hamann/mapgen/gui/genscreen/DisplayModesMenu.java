@@ -31,8 +31,6 @@ public class DisplayModesMenu extends JMenu {
     add(elevationMode);
     add(plateMode);
     add(collisionMode);
-    //    add(landSeaMode);
-
   }
 
   private void initButtonGroup() {
@@ -41,7 +39,6 @@ public class DisplayModesMenu extends JMenu {
     modeButtons.add(elevationMode);
     modeButtons.add(plateMode);
     modeButtons.add(collisionMode);
-    //    modeButtons.add(landSeaMode);
 
     activateRiverMode();
   }
@@ -66,14 +63,6 @@ public class DisplayModesMenu extends JMenu {
       }
     });
 
-    //    landSeaMode = new JRadioButtonMenuItem("Land/Sea");
-    //    landSeaMode.addActionListener(new ActionListener() {
-    //
-    //      public void actionPerformed(ActionEvent e) {
-    //        screen.setCurrentColourer(new LandSeaColourer(screen.getTectonicMap()));
-    //        screen.updateImage();
-    //      }
-    //    });
 
     elevationMode = new JRadioButtonMenuItem("Elevation");
     elevationMode.addActionListener(new ActionListener() {

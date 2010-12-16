@@ -22,10 +22,9 @@ import ca.hamann.mapgen.tectonic.Eroder;
 public class ExecutionPanel extends JPanel {
 	private GeneratorScreen screen;
 
-	private JButton drift, erosion, rotateEast, rotateWest, addRivers;
-	private JTextField iterationsInput;
-
 	private List<JComponent> activeComponents = new ArrayList<JComponent>();
+
+	private JTextField iterationsInput;
 
 	public ExecutionPanel(GeneratorScreen screen) {
 		this.screen = screen;
@@ -33,20 +32,12 @@ public class ExecutionPanel extends JPanel {
 	}
 
 	private void init() {
-		initDriftButton();
-		initErosionButton();
-		initRotateEastButton();
-		initRotateWestButton();
-		initAddRiversButton();
-
-		iterationsInput = new JTextField(6);
-		iterationsInput.setText("1");
-		iterationsInput.setHorizontalAlignment(JTextField.RIGHT);
+		iterationsInput = initIterationsInput();
 
 		JPanel iteratedOperationsButtons = new JPanel();
 
-		iteratedOperationsButtons.add(drift);
-		iteratedOperationsButtons.add(erosion);
+		iteratedOperationsButtons.add(initDriftButton());
+		iteratedOperationsButtons.add(initErosionButton());
 
 		JPanel iteratedOperations = new JPanel();
 		iteratedOperations.setBorder(new EtchedBorder());
@@ -58,14 +49,13 @@ public class ExecutionPanel extends JPanel {
 		iterationsInputPanel.setBorder(new EtchedBorder());
 		iterationsInputPanel.add(new JLabel("Iterations"));
 		iterationsInputPanel.add(iterationsInput);
-		activeComponents.add(iterationsInput);
 
 		iteratedOperations.add(iterationsInputPanel);
 
 		JPanel rivers = new JPanel();
 		rivers.setBorder(new EtchedBorder());
 		rivers.add(new JLabel("Rivers"));
-		rivers.add(addRivers);
+		rivers.add(initAddRiversButton());
 
 		JPanel rotations = new JPanel();
 		rotations.setBorder(new EtchedBorder());
@@ -75,9 +65,9 @@ public class ExecutionPanel extends JPanel {
 
 		constraints.gridx = 0;
 		constraints.gridy = 1;
-		rotations.add(rotateWest, constraints);
+		rotations.add(initRotateWestButton(), constraints);
 		constraints.gridx = 1;
-		rotations.add(rotateEast, constraints);
+		rotations.add(initRotateEastButton(), constraints);
 
 		constraints.gridx = 0;
 		constraints.gridy = 0;
@@ -90,8 +80,16 @@ public class ExecutionPanel extends JPanel {
 
 	}
 
-	private void initDriftButton() {
-		drift = new JButton("Drift");
+	private JTextField initIterationsInput() {
+		JTextField iterationsInput = new JTextField(6);
+		iterationsInput.setText("1");
+		iterationsInput.setHorizontalAlignment(JTextField.RIGHT);
+		activeComponents.add(iterationsInput);
+		return iterationsInput;
+	}
+
+	private JButton initDriftButton() {
+		JButton drift = new JButton("Drift");
 		drift.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				screen.setEnabledControls(false);
@@ -102,10 +100,11 @@ public class ExecutionPanel extends JPanel {
 			}
 		});
 		activeComponents.add(drift);
+		return drift;
 	}
 
-	private void initErosionButton() {
-		erosion = new JButton("Erosion");
+	private JButton initErosionButton() {
+		JButton erosion = new JButton("Erosion");
 
 		erosion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -116,10 +115,12 @@ public class ExecutionPanel extends JPanel {
 				erosionProcess.start();
 			}
 		});
+		activeComponents.add(erosion);
+		return erosion;
 	}
 
-	private void initRotateEastButton() {
-		rotateEast = new JButton("East");
+	private JButton initRotateEastButton() {
+		JButton rotateEast = new JButton("East");
 
 		rotateEast.setMnemonic(KeyEvent.VK_PERIOD);
 
@@ -133,10 +134,12 @@ public class ExecutionPanel extends JPanel {
 				rotateProcess.start();
 			}
 		});
+		activeComponents.add(rotateEast);
+		return rotateEast;
 	}
 
-	private void initRotateWestButton() {
-		rotateWest = new JButton("West");
+	private JButton initRotateWestButton() {
+		JButton rotateWest = new JButton("West");
 
 		rotateWest.setMnemonic(KeyEvent.VK_COMMA);
 
@@ -150,10 +153,13 @@ public class ExecutionPanel extends JPanel {
 				rotateProcess.start();
 			}
 		});
+
+		activeComponents.add(rotateWest);
+		return rotateWest;
 	}
 
-	private void initAddRiversButton() {
-		addRivers = new JButton("Add Rivers");
+	private JButton initAddRiversButton() {
+		JButton addRivers = new JButton("Add Rivers");
 
 		addRivers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -166,17 +172,16 @@ public class ExecutionPanel extends JPanel {
 				riverProcess.start();
 			}
 		});
+
+		activeComponents.add(addRivers);
+		return addRivers;
 	}
 
 	public void setEnableControls(boolean enabled) {
-		drift.setEnabled(enabled);
-		erosion.setEnabled(enabled);
+		for (JComponent c : activeComponents) {
+			c.setEnabled(enabled);
+		}
 		iterationsInput.setEnabled(enabled);
-
-		rotateEast.setEnabled(enabled);
-		rotateWest.setEnabled(enabled);
-
-		addRivers.setEnabled(enabled);
 	}
 
 	public int getIterations() {

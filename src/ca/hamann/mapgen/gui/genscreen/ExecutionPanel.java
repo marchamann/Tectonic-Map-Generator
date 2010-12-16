@@ -2,7 +2,6 @@ package ca.hamann.mapgen.gui.genscreen;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,7 @@ import javax.swing.border.EtchedBorder;
 import ca.hamann.mapgen.gui.genscreen.mapactions.AddRiversAction;
 import ca.hamann.mapgen.gui.genscreen.mapactions.DriftAction;
 import ca.hamann.mapgen.gui.genscreen.mapactions.ErosionAction;
+import ca.hamann.mapgen.gui.genscreen.mapactions.MapAction;
 import ca.hamann.mapgen.gui.genscreen.mapactions.RotateAction;
 
 public class ExecutionPanel extends JPanel {
@@ -102,48 +102,23 @@ public class ExecutionPanel extends JPanel {
 	}
 
 	private JButton initDriftButton() {
-		JButton drift = new JButton("Drift");
-		drift.addActionListener(new DriftAction(screen));
-		activeComponents.add(drift);
-		return drift;
+		return createActionButton("Drift", new DriftAction(screen));
 	}
 
 	private JButton initErosionButton() {
-		JButton erosion = new JButton("Erosion");
-
-		erosion.addActionListener(new ErosionAction(screen));
-		activeComponents.add(erosion);
-		return erosion;
+		return createActionButton("Erosion", new ErosionAction(screen));
 	}
 
 	private JButton initRotateEastButton() {
-		JButton rotateEast = new JButton("East");
-
-		rotateEast.setMnemonic(KeyEvent.VK_PERIOD);
-
-		rotateEast.addActionListener(new RotateAction(screen, true));
-		activeComponents.add(rotateEast);
-		return rotateEast;
+		return createActionButton("East", new RotateAction(screen, true));
 	}
 
 	private JButton initRotateWestButton() {
-		JButton rotateWest = new JButton("West");
-
-		rotateWest.setMnemonic(KeyEvent.VK_COMMA);
-
-		rotateWest.addActionListener(new RotateAction(screen, false));
-
-		activeComponents.add(rotateWest);
-		return rotateWest;
+		return createActionButton("West", new RotateAction(screen, false));
 	}
 
 	private JButton initAddRiversButton() {
-		JButton addRivers = new JButton("Add Rivers");
-
-		addRivers.addActionListener(new AddRiversAction(screen));
-
-		activeComponents.add(addRivers);
-		return addRivers;
+		return createActionButton("Add Rivers", new AddRiversAction(screen));
 	}
 
 	public void setEnableControls(boolean enabled) {
@@ -160,5 +135,12 @@ public class ExecutionPanel extends JPanel {
 			parseInt = 0;
 		}
 		return parseInt;
+	}
+
+	private JButton createActionButton(String label, MapAction action) {
+		JButton button = new JButton(label);
+		button.addActionListener(action);
+		activeComponents.add(button);
+		return button;
 	}
 }

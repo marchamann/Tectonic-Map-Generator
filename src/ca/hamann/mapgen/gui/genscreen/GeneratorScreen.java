@@ -126,7 +126,7 @@ public class GeneratorScreen extends JFrame {
 
 		imageHolder = new JLabel();
 		imageHolder.setHorizontalAlignment(JLabel.CENTER);
-		
+
 		mainPanel.add(imageHolder, "North");
 		mainPanel.add(controls, "South");
 		return mainPanel;
@@ -221,6 +221,10 @@ public class GeneratorScreen extends JFrame {
 
 	public MapConfiguration getMapConfiguration() {
 		return config;
+	}
+
+	public int getIterations() {
+		return executionPanel.getIterations();
 	}
 
 }

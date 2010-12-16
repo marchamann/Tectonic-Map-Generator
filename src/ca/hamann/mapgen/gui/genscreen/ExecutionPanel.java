@@ -2,8 +2,6 @@ package ca.hamann.mapgen.gui.genscreen;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
-import ca.hamann.mapgen.Rotater;
-import ca.hamann.mapgen.drainage.DrainageProcessor;
-import ca.hamann.mapgen.tectonic.Eroder;
+import ca.hamann.mapgen.gui.genscreen.mapactions.AddRiversAction;
+import ca.hamann.mapgen.gui.genscreen.mapactions.DriftAction;
+import ca.hamann.mapgen.gui.genscreen.mapactions.ErosionAction;
+import ca.hamann.mapgen.gui.genscreen.mapactions.RotateAction;
 
 public class ExecutionPanel extends JPanel {
 	private GeneratorScreen screen;
@@ -104,15 +103,7 @@ public class ExecutionPanel extends JPanel {
 
 	private JButton initDriftButton() {
 		JButton drift = new JButton("Drift");
-		drift.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				screen.setEnabledControls(false);
-				MapProcess driftProcess = screen.getNewMapProcess();
-				driftProcess.setProcessor(screen.getDrifter());
-				driftProcess.setIterations(getIterations());
-				driftProcess.start();
-			}
-		});
+		drift.addActionListener(new DriftAction(screen));
 		activeComponents.add(drift);
 		return drift;
 	}
@@ -120,15 +111,7 @@ public class ExecutionPanel extends JPanel {
 	private JButton initErosionButton() {
 		JButton erosion = new JButton("Erosion");
 
-		erosion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				screen.setEnabledControls(false);
-				MapProcess erosionProcess = screen.getNewMapProcess();
-				erosionProcess.setProcessor(new Eroder(screen.getTectonicMap()));
-				erosionProcess.setIterations(getIterations());
-				erosionProcess.start();
-			}
-		});
+		erosion.addActionListener(new ErosionAction(screen));
 		activeComponents.add(erosion);
 		return erosion;
 	}
@@ -138,16 +121,7 @@ public class ExecutionPanel extends JPanel {
 
 		rotateEast.setMnemonic(KeyEvent.VK_PERIOD);
 
-		rotateEast.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				screen.setEnabledControls(false);
-				MapProcess rotateProcess = screen.getNewMapProcess();
-				rotateProcess.setProcessor(new Rotater(screen.getTectonicMap(),
-						true));
-				rotateProcess.setIterations(1);
-				rotateProcess.start();
-			}
-		});
+		rotateEast.addActionListener(new RotateAction(screen, true));
 		activeComponents.add(rotateEast);
 		return rotateEast;
 	}
@@ -157,16 +131,7 @@ public class ExecutionPanel extends JPanel {
 
 		rotateWest.setMnemonic(KeyEvent.VK_COMMA);
 
-		rotateWest.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				screen.setEnabledControls(false);
-				MapProcess rotateProcess = screen.getNewMapProcess();
-				rotateProcess.setProcessor(new Rotater(screen.getTectonicMap(),
-						false));
-				rotateProcess.setIterations(1);
-				rotateProcess.start();
-			}
-		});
+		rotateWest.addActionListener(new RotateAction(screen, false));
 
 		activeComponents.add(rotateWest);
 		return rotateWest;
@@ -175,17 +140,7 @@ public class ExecutionPanel extends JPanel {
 	private JButton initAddRiversButton() {
 		JButton addRivers = new JButton("Add Rivers");
 
-		addRivers.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				screen.setEnabledControls(false);
-
-				MapProcess riverProcess = screen.getNewMapProcess();
-				riverProcess.setProcessor(new DrainageProcessor(screen
-						.getTectonicMap()));
-				riverProcess.setIterations(1);
-				riverProcess.start();
-			}
-		});
+		addRivers.addActionListener(new AddRiversAction(screen));
 
 		activeComponents.add(addRivers);
 		return addRivers;
@@ -198,6 +153,12 @@ public class ExecutionPanel extends JPanel {
 	}
 
 	public int getIterations() {
-		return Integer.parseInt(iterationsInput.getText().trim());
+		int parseInt;
+		try {
+			parseInt = Integer.parseInt(iterationsInput.getText().trim());
+		} catch (NumberFormatException e) {
+			parseInt = 0;
+		}
+		return parseInt;
 	}
 }

@@ -28,10 +28,12 @@ public class ExecutionPanel extends JPanel {
 
 	public ExecutionPanel(GeneratorScreen screen) {
 		this.screen = screen;
-		init();
+		add(createIteratedOperationsPanel());
+		add(createRiversPanel());
+		add(createRotationsPanel());
 	}
 
-	private void init() {
+	private JPanel createIteratedOperationsPanel() {
 		iterationsInput = initIterationsInput();
 
 		JPanel iteratedOperationsButtons = new JPanel();
@@ -51,12 +53,18 @@ public class ExecutionPanel extends JPanel {
 		iterationsInputPanel.add(iterationsInput);
 
 		iteratedOperations.add(iterationsInputPanel);
+		return iteratedOperations;
+	}
 
+	private JPanel createRiversPanel() {
 		JPanel rivers = new JPanel();
 		rivers.setBorder(new EtchedBorder());
 		rivers.add(new JLabel("Rivers"));
 		rivers.add(initAddRiversButton());
+		return rivers;
+	}
 
+	private JPanel createRotationsPanel() {
 		JPanel rotations = new JPanel();
 		rotations.setBorder(new EtchedBorder());
 		rotations.setLayout(new GridBagLayout());
@@ -73,11 +81,7 @@ public class ExecutionPanel extends JPanel {
 		constraints.gridy = 0;
 		constraints.gridwidth = 2;
 		rotations.add(new JLabel("Rotate"), constraints);
-
-		add(iteratedOperations);
-		add(rivers);
-		add(rotations);
-
+		return rotations;
 	}
 
 	private JTextField initIterationsInput() {

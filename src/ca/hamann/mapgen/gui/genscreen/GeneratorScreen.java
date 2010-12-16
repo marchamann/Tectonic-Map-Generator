@@ -27,8 +27,6 @@ import ca.hamann.mapgen.tectonic.TectonicMap;
 
 public class GeneratorScreen extends JFrame {
 
-	private static final int HALFSPEAR = 48;
-
 	private Projection currentProjection;
 
 	private JLabel imageHolder;
@@ -38,7 +36,7 @@ public class GeneratorScreen extends JFrame {
 
 	private TectonicMap tectMap;
 
-	private MapConfiguration config = new MapConfiguration(HALFSPEAR);
+	private MapConfiguration config = new MapConfiguration(48);
 
 	private DisplayModesMenu displayModesMenu;
 	private ExecutionPanel executionPanel;

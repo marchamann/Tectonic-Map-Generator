@@ -28,15 +28,13 @@ public class ExecutionPanel extends JPanel {
 
 	public ExecutionPanel(GeneratorScreen screen) {
 		this.screen = screen;
+		createIterationsInput();
 		add(createIteratedOperationsPanel());
 		add(createRiversPanel());
 		add(createRotationsPanel());
 	}
 
 	private JPanel createIteratedOperationsPanel() {
-		iterationsInput = initIterationsInput();
-		activeComponents.add(iterationsInput);
-
 		JPanel iteratedOperations = new JPanel();
 		iteratedOperations.setBorder(new EtchedBorder());
 
@@ -45,6 +43,11 @@ public class ExecutionPanel extends JPanel {
 
 		iteratedOperations.add(createIterationsInputPanel());
 		return iteratedOperations;
+	}
+
+	private void createIterationsInput() {
+		iterationsInput = initIterationsInput();
+		activeComponents.add(iterationsInput);
 	}
 
 	private JPanel createIterationsInputPanel() {

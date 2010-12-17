@@ -1,4 +1,4 @@
-package ca.hamann.mapgen.gui.genscreen;
+package ca.hamann.mapgen.gui.genscreen.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
+import ca.hamann.mapgen.gui.genscreen.GeneratorScreen;
 import ca.hamann.mapgen.gui.genscreen.mapactions.AddRiversAction;
 import ca.hamann.mapgen.gui.genscreen.mapactions.DriftAction;
 import ca.hamann.mapgen.gui.genscreen.mapactions.ErosionAction;

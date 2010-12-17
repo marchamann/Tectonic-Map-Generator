@@ -18,6 +18,7 @@ import ca.hamann.mapgen.MapConfiguration;
 import ca.hamann.mapgen.gui.colourers.LocationColourer;
 import ca.hamann.mapgen.gui.colourers.PlateColourer;
 import ca.hamann.mapgen.gui.colourers.RiversColourer;
+import ca.hamann.mapgen.gui.genscreen.panels.ExecutionPanel;
 import ca.hamann.mapgen.gui.projections.Projection;
 import ca.hamann.mapgen.gui.projections.SinusoidalSeparatedProjection;
 import ca.hamann.mapgen.sinusoidal.SinusoidalGrid;

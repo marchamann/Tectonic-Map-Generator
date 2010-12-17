@@ -2,80 +2,35 @@ package ca.hamann.mapgen.gui.genscreen.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
 import ca.hamann.mapgen.gui.genscreen.GeneratorScreen;
 import ca.hamann.mapgen.gui.genscreen.mapactions.AddRiversAction;
-import ca.hamann.mapgen.gui.genscreen.mapactions.DriftAction;
-import ca.hamann.mapgen.gui.genscreen.mapactions.ErosionAction;
-import ca.hamann.mapgen.gui.genscreen.mapactions.MapAction;
 import ca.hamann.mapgen.gui.genscreen.mapactions.RotateAction;
 
-public class ExecutionPanel extends JPanel {
-	private GeneratorScreen screen;
-
-	private List<JComponent> activeComponents = new ArrayList<JComponent>();
-
-	private JTextField iterationsInput;
+public class ExecutionPanel extends ControlPanel {
 
 	public ExecutionPanel(GeneratorScreen screen) {
-		this.screen = screen;
-		createIterationsInput();
-		add(createIteratedOperationsPanel());
-		add(createRiversPanel());
-		add(createRotationsPanel());
+		super(screen);
+		addActiveComponentPanel(new IteratedOperationsPanel(screen));
+		addActiveComponentPanel(createRiversPanel());
+		addActiveComponentPanel(createRotationsPanel());
 	}
 
-	private JPanel createIteratedOperationsPanel() {
-		JPanel iteratedOperations = new JPanel();
-		iteratedOperations.setBorder(new EtchedBorder());
-
-		iteratedOperations.add(new JLabel("Iterated Actions"));
-		iteratedOperations.add(createdIteratedOperationsButtons());
-
-		iteratedOperations.add(createIterationsInputPanel());
-		return iteratedOperations;
-	}
-
-	private void createIterationsInput() {
-		iterationsInput = initIterationsInput();
-		activeComponents.add(iterationsInput);
-	}
-
-	private JPanel createIterationsInputPanel() {
-		JPanel iterationsInputPanel = new JPanel();
-		iterationsInputPanel.setBorder(new EtchedBorder());
-		iterationsInputPanel.add(new JLabel("Iterations"));
-		iterationsInputPanel.add(iterationsInput);
-		return iterationsInputPanel;
-	}
-
-	private JPanel createdIteratedOperationsButtons() {
-		JPanel iteratedOperationsButtons = new JPanel();
-
-		iteratedOperationsButtons.add(initDriftButton());
-		iteratedOperationsButtons.add(initErosionButton());
-		return iteratedOperationsButtons;
-	}
-
-	private JPanel createRiversPanel() {
-		JPanel rivers = new JPanel();
+	private ControlPanel createRiversPanel() {
+		ControlPanel rivers = new ControlPanel(screen);
 		rivers.setBorder(new EtchedBorder());
 		rivers.add(new JLabel("Rivers"));
 		rivers.add(initAddRiversButton());
 		return rivers;
 	}
 
-	private JPanel createRotationsPanel() {
-		JPanel rotations = new JPanel();
+	private ControlPanel createRotationsPanel() {
+		ControlPanel rotations = new ControlPanel(screen);
 		rotations.setBorder(new EtchedBorder());
 		rotations.setLayout(new GridBagLayout());
 
@@ -94,22 +49,6 @@ public class ExecutionPanel extends JPanel {
 		return rotations;
 	}
 
-	private JTextField initIterationsInput() {
-		JTextField iterationsInput = new JTextField(6);
-		iterationsInput.setText("1");
-		iterationsInput.setHorizontalAlignment(JTextField.RIGHT);
-		activeComponents.add(iterationsInput);
-		return iterationsInput;
-	}
-
-	private JButton initDriftButton() {
-		return createActionButton("Drift", new DriftAction(screen));
-	}
-
-	private JButton initErosionButton() {
-		return createActionButton("Erosion", new ErosionAction(screen));
-	}
-
 	private JButton initRotateEastButton() {
 		return createActionButton("East", new RotateAction(screen, true));
 	}
@@ -123,25 +62,9 @@ public class ExecutionPanel extends JPanel {
 	}
 
 	public void setEnableControls(boolean enabled) {
-		for (JComponent c : activeComponents) {
+		for (JComponent c : getActiveCompenents()) {
 			c.setEnabled(enabled);
 		}
 	}
 
-	public int getIterations() {
-		int parseInt;
-		try {
-			parseInt = Integer.parseInt(iterationsInput.getText().trim());
-		} catch (NumberFormatException e) {
-			parseInt = 0;
-		}
-		return parseInt;
-	}
-
-	private JButton createActionButton(String label, MapAction action) {
-		JButton button = new JButton(label);
-		button.addActionListener(action);
-		activeComponents.add(button);
-		return button;
-	}
 }

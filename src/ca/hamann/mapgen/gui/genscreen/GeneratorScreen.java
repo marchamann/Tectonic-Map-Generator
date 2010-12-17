@@ -27,6 +27,7 @@ import ca.hamann.mapgen.tectonic.PlateGenerator;
 import ca.hamann.mapgen.tectonic.TectonicMap;
 
 public class GeneratorScreen extends JFrame {
+	int iterations = 1;
 
 	private Projection currentProjection;
 
@@ -222,7 +223,11 @@ public class GeneratorScreen extends JFrame {
 	}
 
 	public int getIterations() {
-		return executionPanel.getIterations();
+		return iterations;
+	}
+
+	public void setIterations(int iterations) {
+		this.iterations = iterations;
 	}
 
 }

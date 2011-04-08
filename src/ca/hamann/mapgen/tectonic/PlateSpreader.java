@@ -54,11 +54,11 @@ public class PlateSpreader {
 		return result;
 	}
 
-	public SinusoidalLocation spreadPlateByOne(int plateIndex) {
+	public boolean spreadPlateByOne(int plateIndex) {
 		LocationList neighbourSet = getNeighbourSet(plateIndex);
 
 		if (neighbourSet.isEmpty()) {
-			return null;
+			return false;
 		}
 
 		int nextNeighbour = 0;
@@ -67,27 +67,40 @@ public class PlateSpreader {
 		}
 		SinusoidalLocation loc = neighbourSet.remove(nextNeighbour);
 
-		if (tectMap.getPlateIndex(loc) == 0) {
-			int savedPlate = plateIndex;
-			if (savedPlate == 0) {
-				savedPlate = -1;
-			}
-			tectMap.setPlateIndex(loc, savedPlate);
+		if (isPlateLocationFree(loc)) {
+			setPlateForLocation(loc, plateIndex);
 
-			LocationCollection neighbours = neighbourhoods.getNeighbours(loc);
-			LocationIterator iterator = neighbours.iterator();
-			while (iterator.hasNext()) {
-				SinusoidalLocation next = iterator.next();
-				if (tectMap.getPlateIndex(next) == 0) {
-					neighbourSet.add(next);
-				}
-			}
+			rememberNewNeighbours(neighbourSet, loc);
 
-			return loc;
+			return true;
 		}
 
 		return spreadPlateByOne(plateIndex);
 
+	}
+
+	private void rememberNewNeighbours(LocationList neighbourSet,
+			SinusoidalLocation loc) {
+		LocationCollection neighbours = neighbourhoods.getNeighbours(loc);
+		LocationIterator iterator = neighbours.iterator();
+		while (iterator.hasNext()) {
+			SinusoidalLocation next = iterator.next();
+			if (isPlateLocationFree(next)) {
+				neighbourSet.add(next);
+			}
+		}
+	}
+
+	private void setPlateForLocation(SinusoidalLocation loc, int plateIndex) {
+		int savedPlate = plateIndex;
+		if (savedPlate == 0) {
+			savedPlate = -1;
+		}
+		tectMap.setPlateIndex(loc, savedPlate);
+	}
+
+	private boolean isPlateLocationFree(SinusoidalLocation loc) {
+		return tectMap.getPlateIndex(loc) == 0;
 	}
 
 	public TectonicMap floodFillPlates() {
@@ -101,9 +114,9 @@ public class PlateSpreader {
 
 			while (iterator.hasNext()) {
 				Integer integer = iterator.next();
-				SinusoidalLocation loc = spreadPlateByOne(integer.intValue());
+				boolean foundFreeLocation = spreadPlateByOne(integer.intValue());
 
-				if (loc != null) {
+				if (foundFreeLocation) {
 					done = false;
 				}
 			}

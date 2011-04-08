@@ -51,7 +51,7 @@ public class TestPlateGenerator extends TestCase {
   }
 
   public void testSpreadPlateByOneWithEmptyEdgeSet() {
-    assertNull(gen.spreadPlateByOne(1));
+    assertFalse(gen.spreadPlateByOne(1));
   }
 
   public void testSpreadPlateByOneWithAllEdgeSetFilled() {
@@ -61,7 +61,7 @@ public class TestPlateGenerator extends TestCase {
 
     tectMap.setPlateIndex(loc, 1);
 
-    assertNull(gen.spreadPlateByOne(1));
+    assertFalse(gen.spreadPlateByOne(1));
   }
 
   public void testFloodFillPlates() {

@@ -6,4 +6,6 @@ It supports [cylindrical](https://github.com/marchamann/Tectonic-Map-Generator/t
 
 The results weren&#39;t quite what I was aiming for, and many improvements to the UI, the display colours, and some fine points of map generation were left undone, but it might amuse people who like maps, and someday I may improve it.
 
+You can run the application on Windows by running mapgen.bat on Windows or mapgen.sh on Linux/Unix environments.  These assume you have Java installed properly already.
+
 For more detailed technical info, see [this document](https://github.com/marchamann/Tectonic-Map-Generator/blob/master/technical.md).

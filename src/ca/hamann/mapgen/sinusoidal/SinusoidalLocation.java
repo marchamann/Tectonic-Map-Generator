@@ -39,8 +39,7 @@ public class SinusoidalLocation implements Comparable<SinusoidalLocation> {
 		return "SinusoidalLocation: spear:" + spear + " y:" + y + " x:" + x;
 	}
 
-	public int compareTo(SinusoidalLocation o) {
-		SinusoidalLocation location = (SinusoidalLocation) o;
+	public int compareTo(SinusoidalLocation location) {
 
 		if (location.gridOrdinal > gridOrdinal) {
 			return -1;
@@ -50,37 +49,6 @@ public class SinusoidalLocation implements Comparable<SinusoidalLocation> {
 			return 1;
 		}
 
-		//
-		// int objectSpear = location.getSpear();
-		//
-		// if (objectSpear > spear) {
-		// return -1;
-		// }
-		//
-		// if (objectSpear < spear) {
-		// return 1;
-		// }
-		//
-		// int objectY = location.getY();
-		//
-		// if (objectY > getY()) {
-		// return -1;
-		// }
-		//
-		// if (objectY < getY()) {
-		// return 1;
-		// }
-		//
-		// int objectX = location.getX();
-		//
-		// if (objectX > getX()) {
-		// return -1;
-		// }
-		//
-		// if (objectX < getX()) {
-		// return 1;
-		// }
-		//
 		return 0;
 	}
 

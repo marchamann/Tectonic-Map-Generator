@@ -144,7 +144,6 @@ public class SinusoidalGrid implements LocationContainer {
 
   public LocationIterator iterator() {
     return new LocationCollectionIterator(iterationList.iterator());
-    //    return new MapLocationIterator(this);
   }
 
   public boolean isValidLocation(SinusoidalLocation loc) {

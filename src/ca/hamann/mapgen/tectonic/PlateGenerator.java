@@ -3,6 +3,7 @@ package ca.hamann.mapgen.tectonic;
 import java.util.Random;
 
 import ca.hamann.mapgen.MapConfiguration;
+import ca.hamann.mapgen.containers.LocationIterator;
 import ca.hamann.mapgen.containers.LocationList;
 import ca.hamann.mapgen.direction.DirectionSequence;
 import ca.hamann.mapgen.direction.DirectionSequenceGenerator;
@@ -46,8 +47,10 @@ public class PlateGenerator implements MapProcessor {
 	}
 
 	private void fillMapWithStartPlate() {
-		// TODO Auto-generated method stub
-		
+		LocationIterator iterator = grid.iterator();
+		while (iterator.hasNext()) {
+			tectMap.setPlateIndex(iterator.next(), 1);
+		}
 	}
 
 	private int[] randomizeStartingLocations(int plateCount) {

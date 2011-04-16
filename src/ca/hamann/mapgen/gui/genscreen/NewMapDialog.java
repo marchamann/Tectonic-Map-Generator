@@ -12,6 +12,7 @@ import javax.swing.BoxLayout;
 import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -44,6 +45,9 @@ public class NewMapDialog extends JDialog {
 
 	private JLabel lazySpreadingLabel;
 	private JCheckBox lazySpreadingCheckBox;
+
+	private JLabel plateCreationMethodLabel;
+	private JComboBox plateCreationMethodComboBox;
 
 	private JButton cancel;
 	private JButton makeMap;
@@ -225,6 +229,13 @@ public class NewMapDialog extends JDialog {
 
 		addLabelComponentPair(c, lazySpreadingLabel, lazySpreadingCheckBox);
 
+		plateCreationMethodLabel = new JLabel("Plate Creation Method");
+		plateCreationMethodComboBox = new JComboBox(new String[] {
+				"Flood Fill", "Plate Splitting" });
+		plateCreationMethodComboBox.setEditable(false);
+		
+		addLabelComponentPair(c, plateCreationMethodLabel, plateCreationMethodComboBox);
+
 		cancel = new JButton("Cancel");
 
 		cancel.addActionListener(new ActionListener() {
@@ -295,8 +306,10 @@ public class NewMapDialog extends JDialog {
 		}
 
 		config.setStartingSeed(seed);
-	
+
 		config.setLazySpreading(lazySpreadingCheckBox.isSelected());
+		
+		config.setPlateCreationMethod((String) plateCreationMethodComboBox.getSelectedItem());
 
 		screen.initMaps(config);
 	}

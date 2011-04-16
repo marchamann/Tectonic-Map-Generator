@@ -4,50 +4,57 @@ import java.util.Random;
 
 import ca.hamann.mapgen.containers.LocationIterator;
 import ca.hamann.mapgen.containers.LocationList;
+import ca.hamann.mapgen.gui.genscreen.MapProcess;
 import ca.hamann.mapgen.sinusoidal.SinusoidalLocation;
 
 public class PlateSplitter {
 
-  private TectonicMap tectMap;
-  private PlateSpreader spreader;
+	private TectonicMap tectMap;
+	private PlateSpreader spreader;
 
-  private Random random = new Random(0);
+	private Random random = new Random(0);
 
-  public PlateSplitter(TectonicMap tectMap) {
-    this.tectMap = tectMap;
-    spreader = new PlateSpreader(tectMap);
-  }
+	public PlateSplitter(TectonicMap tectMap) {
+		this.tectMap = tectMap;
+		spreader = new PlateSpreader(tectMap);
+	}
 
-  public LocationList collectPlate(int plateIndex) {
-    LocationList plate = new LocationList();
-    LocationIterator iterator = tectMap.getGrid().iterator();
+	public LocationList collectPlate(int plateIndex) {
+		LocationList plate = new LocationList();
+		LocationIterator iterator = tectMap.getGrid().iterator();
 
-    while (iterator.hasNext()) {
-      SinusoidalLocation next = iterator.next();
+		while (iterator.hasNext()) {
+			SinusoidalLocation next = iterator.next();
 
-      if (tectMap.getPlateIndex(next) == plateIndex) {
-        tectMap.setPlateIndex(next, 0);
-        plate.add(next);
-      }
-    }
+			if (tectMap.getPlateIndex(next) == plateIndex) {
+				tectMap.setPlateIndex(next, 0);
+				plate.add(next);
+			}
+		}
 
-    return plate;
-  }
+		return plate;
+	}
 
-  public void splitPlate(int oldPlateIndex, int emptyPlateIndex) {
-    LocationList oldPlate = collectPlate(oldPlateIndex);
+	public void splitPlate(int oldPlateIndex, int emptyPlateIndex) {
+		LocationList oldPlate = collectPlate(oldPlateIndex);
 
-    SinusoidalLocation loc1 = oldPlate.remove(random.nextInt(oldPlate.size()));
-    SinusoidalLocation loc2 = oldPlate.remove(random.nextInt(oldPlate.size()));
+		SinusoidalLocation loc1 = oldPlate.remove(random.nextInt(oldPlate
+				.size()));
+		SinusoidalLocation loc2 = oldPlate.remove(random.nextInt(oldPlate
+				.size()));
 
-    spreader.getNeighbourSet(oldPlateIndex).add(loc1);
-    spreader.getNeighbourSet(emptyPlateIndex).add(loc2);
+		spreader.getNeighbourSet(oldPlateIndex).add(loc1);
+		spreader.getNeighbourSet(emptyPlateIndex).add(loc2);
 
-    spreader.generatePlates();
+		spreader.floodFillPlates();
 
-    EmptyLocationFiller filler = new EmptyLocationFiller(tectMap);
-    filler.setRiftValleyMaker(false);
-    filler.fillEmptyLocations();
-  }
+		EmptyLocationFiller filler = new EmptyLocationFiller(tectMap);
+		filler.setRiftValleyMaker(false);
+		filler.fillEmptyLocations();
+	}
+
+	public void setProcess(MapProcess process) {
+		spreader.setProcess(process);
+	}
 
 }

@@ -111,6 +111,32 @@ public class PlateSpreader {
 	}
 
 	public TectonicMap generatePlates() {
+		String plateCreationMethod = config.getPlateCreationMethod();
+
+		if ("Flood Fill".equals(plateCreationMethod)) {
+			floodFillPlates();
+		} else if ("Plate Splitting".equals(plateCreationMethod)) {
+			splitPlates();
+		}
+
+		return tectMap;
+	}
+
+	private void splitPlates() {
+		int plateCount = 1;
+		PlateSplitter splitter = new PlateSplitter(tectMap);
+		splitter.setProcess(process);
+		while (plateCount < config.getPlateCount()) {
+
+			int randomPlate = floodFillRandom.nextInt(plateCount) + 1;
+			splitter.splitPlate(randomPlate, plateCount + 1);
+			plateCount++;
+		}
+
+		tectMap.generateBaseElevations();
+	}
+
+	public void floodFillPlates() {
 		Set<Integer> keys = edgeSets.keySet();
 		boolean done = false;
 		int count = 0;
@@ -131,8 +157,6 @@ public class PlateSpreader {
 				updateGui();
 			}
 		}
-
-		return tectMap;
 	}
 
 	protected void updateGui() {

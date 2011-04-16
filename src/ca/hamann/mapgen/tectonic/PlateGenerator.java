@@ -123,7 +123,7 @@ public class PlateGenerator implements MapProcessor {
     return tectMap;
   }
 
-  public boolean spreadPlateByOne(int i) {
+  public SinusoidalLocation spreadPlateByOne(int i) {
     return spreader.spreadPlateByOne(i);
   }
 

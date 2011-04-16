@@ -6,103 +6,124 @@ import ca.hamann.mapgen.sinusoidal.SinusoidalGrid;
 
 public class MapConfiguration {
 
-  private int baseLandElevation = 130;
-  private int baseSeaElevation = 64;
+	private int baseLandElevation = 130;
+	private int baseSeaElevation = 64;
 
-  private long startingSeed = 0;
+	private long startingSeed = 0;
 
-  private int plateCount = 20;
-  private int startingLandPlateCount = 6;
+	private int plateCount = 20;
+	private int startingLandPlateCount = 6;
 
-  private int seaLevel = 128;
+	private int seaLevel = 128;
 
-  private int collisionIncrement = 7;
-  private int erosionLimit = 5;
+	private int collisionIncrement = 7;
+	private int erosionLimit = 5;
 
-  private SinusoidalGrid grid;
+	private SinusoidalGrid grid;
 
-  private Random random;
+	private Random random;
 
-  public MapConfiguration() {
-    initRandom();
-  }
+	private boolean lazySpreading = false;
+	
+	private String plateCreationMethod = "Flood Fill";
 
-  private void initRandom() {
-    this.random = new Random(startingSeed);
-  }
+	public MapConfiguration() {
+		initRandom();
+	}
 
-  public MapConfiguration(int halfSpearWidth) {
-    this();
-    setHalfSpearWidth(halfSpearWidth);
-  }
+	private void initRandom() {
+		this.random = new Random(startingSeed);
+	}
 
-  public int getBaseLandElevation() {
-    return baseLandElevation;
-  }
+	public MapConfiguration(int halfSpearWidth) {
+		this();
+		setHalfSpearWidth(halfSpearWidth);
+	}
 
-  public int getBaseSeaElevation() {
-    return baseSeaElevation;
-  }
+	public int getBaseLandElevation() {
+		return baseLandElevation;
+	}
 
-  public void setBaseLandElevation(int i) {
-    baseLandElevation = i;
-  }
+	public int getBaseSeaElevation() {
+		return baseSeaElevation;
+	}
 
-  public void setBaseSeaElevation(int i) {
-    baseSeaElevation = i;
-  }
+	public void setBaseLandElevation(int i) {
+		baseLandElevation = i;
+	}
 
-  public SinusoidalGrid getGrid() {
-    return grid;
-  }
+	public void setBaseSeaElevation(int i) {
+		baseSeaElevation = i;
+	}
 
-  public void setHalfSpearWidth(int halfSpearWidth) {
-    grid = new SinusoidalGrid(halfSpearWidth);
-  }
+	public SinusoidalGrid getGrid() {
+		return grid;
+	}
 
-  public int getPlateCount() {
-    return plateCount;
-  }
+	public void setHalfSpearWidth(int halfSpearWidth) {
+		grid = new SinusoidalGrid(halfSpearWidth);
+	}
 
-  public void setPlateCount(int i) {
-    plateCount = i;
-  }
+	public int getPlateCount() {
+		return plateCount;
+	}
 
-  public Random getRandom() {
-    return random;
-  }
+	public void setPlateCount(int i) {
+		plateCount = i;
+	}
 
-  public long getStartingSeed() {
-    return startingSeed;
-  }
+	public Random getRandom() {
+		return random;
+	}
 
-  public void setStartingSeed(long seed) {
-    startingSeed = seed;
-    initRandom();
-  }
+	public long getStartingSeed() {
+		return startingSeed;
+	}
 
-  public int getStartingLandPlateCount() {
-    return startingLandPlateCount;
-  }
+	public void setStartingSeed(long seed) {
+		startingSeed = seed;
+		initRandom();
+	}
 
-  public void setStartingLandPlateCount(int i) {
-    startingLandPlateCount = i;
-  }
+	public int getStartingLandPlateCount() {
+		return startingLandPlateCount;
+	}
 
-  public int getSeaLevel() {
-    return seaLevel;
-  }
+	public void setStartingLandPlateCount(int i) {
+		startingLandPlateCount = i;
+	}
 
-  public int getCollisionIncrement() {
-    return collisionIncrement;
-  }
+	public int getSeaLevel() {
+		return seaLevel;
+	}
 
-  public int getErosionLimit() {
-    return erosionLimit;
-  }
+	public int getCollisionIncrement() {
+		return collisionIncrement;
+	}
 
-  public void setErosionLimit(int i) {
-    erosionLimit = i;
-  }
+	public int getErosionLimit() {
+		return erosionLimit;
+	}
 
+	public void setErosionLimit(int i) {
+		erosionLimit = i;
+	}
+
+	public boolean isLazySpreading() {
+		return lazySpreading;
+	}
+
+	public void setLazySpreading(boolean lazySpreading) {
+		this.lazySpreading = lazySpreading;
+	}
+
+	public String getPlateCreationMethod() {
+		return plateCreationMethod;
+	}
+
+	public void setPlateCreationMethod(String plateCreationMethod) {
+		this.plateCreationMethod = plateCreationMethod;
+	}
+	
+	
 }

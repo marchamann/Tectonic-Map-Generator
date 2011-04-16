@@ -27,6 +27,7 @@ public class TestPlateDrifter extends TestCase {
 
 	protected void setUp() throws Exception {
 		config = new MapConfiguration(5);
+		config.setPlateCount(2);
 		map = config.getGrid();
 		mover = map.getMover();
 
@@ -101,7 +102,7 @@ public class TestPlateDrifter extends TestCase {
 	public void testDriftMap() {
 		PlateGenerator gen = new PlateGenerator(config);
 		gen.seedPlates();
-		tectMap = gen.floodFillPlates();
+		tectMap = gen.generatePlates();
 		drifter = new PlateDrifter(tectMap);
 		drifter.setDirectionSequence(eastSequence, 1);
 		drifter.setDirectionSequence(westSequence, 2);

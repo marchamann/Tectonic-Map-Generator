@@ -22,6 +22,7 @@ public class PlateSpreader {
 	private TectonicNeighbourhoods neighbourhoods;
 	private Map<Integer, LocationList> edgeSets;
 	private Random floodFillRandom;
+	private boolean isLazy = false;
 
 	public PlateSpreader(TectonicMap tectMap) {
 		this.tectMap = tectMap;
@@ -61,36 +62,55 @@ public class PlateSpreader {
 			return null;
 		}
 
+		SinusoidalLocation loc = getNextRandomNeighbour(neighbourSet);
+
+		if (isLocationFree(loc)) {
+			addLocationToPlate(loc, plateIndex);
+			addNeighboursToSet(neighbourSet, loc);
+			return loc;
+		}
+
+		if (isLazy) {
+			return loc;
+		}
+		return spreadPlateByOne(plateIndex);
+
+	}
+
+	private SinusoidalLocation getNextRandomNeighbour(LocationList neighbourSet) {
 		int nextNeighbour = 0;
 		if (floodFillRandom != null) {
 			nextNeighbour = floodFillRandom.nextInt(neighbourSet.size());
 		}
 		SinusoidalLocation loc = neighbourSet.remove(nextNeighbour);
-
-		if (tectMap.getPlateIndex(loc) == 0) {
-			int savedPlate = plateIndex;
-			if (savedPlate == 0) {
-				savedPlate = -1;
-			}
-			tectMap.setPlateIndex(loc, savedPlate);
-
-			LocationCollection neighbours = neighbourhoods.getNeighbours(loc);
-			LocationIterator iterator = neighbours.iterator();
-			while (iterator.hasNext()) {
-				SinusoidalLocation next = iterator.next();
-				if (tectMap.getPlateIndex(next) == 0) {
-					neighbourSet.add(next);
-				}
-			}
-
-			return loc;
-		}
-
-		return spreadPlateByOne(plateIndex);
-
+		return loc;
 	}
 
-	public TectonicMap floodFillPlates() {
+	private void addLocationToPlate(SinusoidalLocation loc, int plateIndex) {
+		int savedPlate = plateIndex;
+		if (savedPlate == 0) {
+			savedPlate = -1;
+		}
+		tectMap.setPlateIndex(loc, savedPlate);
+	}
+
+	private void addNeighboursToSet(LocationList neighbourSet,
+			SinusoidalLocation loc) {
+		LocationCollection neighbours = neighbourhoods.getNeighbours(loc);
+		LocationIterator iterator = neighbours.iterator();
+		while (iterator.hasNext()) {
+			SinusoidalLocation next = iterator.next();
+			if (isLocationFree(next)) {
+				neighbourSet.add(next);
+			}
+		}
+	}
+
+	private boolean isLocationFree(SinusoidalLocation loc) {
+		return tectMap.getPlateIndex(loc) == 0;
+	}
+
+	public TectonicMap generatePlates() {
 		Set<Integer> keys = edgeSets.keySet();
 		boolean done = false;
 		int count = 0;
@@ -128,6 +148,10 @@ public class PlateSpreader {
 
 	public void setEdgeSets(Map<Integer, LocationList> map) {
 		edgeSets = map;
+	}
+
+	public void setLazy(boolean isLazy) {
+		this.isLazy = isLazy;
 	}
 
 }

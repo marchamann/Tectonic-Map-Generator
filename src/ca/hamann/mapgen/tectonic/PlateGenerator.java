@@ -15,116 +15,133 @@ import ca.hamann.mapgen.sinusoidal.SinusoidalLocation;
 
 public class PlateGenerator implements MapProcessor {
 
-  private TectonicNeighbourhoods neighbourhoods;
-  private MapConfiguration config;
-  private SinusoidalGrid grid;
-  private TectonicMap tectMap;
-  private PlateSpreader spreader;
+	private TectonicNeighbourhoods neighbourhoods;
+	private MapConfiguration config;
+	private SinusoidalGrid grid;
+	private TectonicMap tectMap;
+	private PlateSpreader spreader;
 
-  private Random floodFillRandom;
+	private Random floodFillRandom;
 
-  public PlateGenerator(MapConfiguration config) {
-    this.config = config;
-    grid = config.getGrid();
-    tectMap = new TectonicMap(config);
-    neighbourhoods = tectMap.getNeighbourhoods();
-    floodFillRandom = config.getRandom();
-    spreader = new PlateSpreader(tectMap);
-  }
+	public PlateGenerator(MapConfiguration config) {
+		this.config = config;
+		grid = config.getGrid();
+		tectMap = new TectonicMap(config);
+		neighbourhoods = tectMap.getNeighbourhoods();
+		floodFillRandom = config.getRandom();
+		spreader = tectMap.getPlateSpreader();
+	}
 
-  public TectonicMap seedPlates() {
-    int plateCount = initializePlates();
+	public void seedPlates() {
+		int plateCount = initializePlates();
 
-    int[] startingLocations = randomizeStartingLocations(plateCount);
+		String plateCreationMethod = config.getPlateCreationMethod();
 
-    mapStartingLocations(startingLocations);
+		if ("Flood Fill".equals(plateCreationMethod)) {
+			int[] startingLocations = randomizeStartingLocations(plateCount);
+			mapStartingLocations(startingLocations);
+		} else if ("Plate Splitting".equals(plateCreationMethod)) {
+			fillMapWithStartPlate();
+		}
+	}
 
-    return tectMap;
-  }
+	private void fillMapWithStartPlate() {
+		// TODO Auto-generated method stub
+		
+	}
 
-  private int[] randomizeStartingLocations(int plateCount) {
-    DirectionSequenceGenerator seqGen = new DirectionSequenceGenerator();
-    int locationCount = grid.getTotalLocations();
+	private int[] randomizeStartingLocations(int plateCount) {
 
-    int[] startingLocations = new int[plateCount + 1];
-    for (int i = 1; i <= plateCount; i++) {
+		int locationCount = grid.getTotalLocations();
 
-      DirectionSequence sequence = seqGen.getSequenceByInt(i);
-      tectMap.setDirectionSequence(sequence, i);
+		int[] startingLocations = new int[plateCount + 1];
+		for (int i = 1; i <= plateCount; i++) {
 
-      int starting = floodFillRandom.nextInt(locationCount);
-      startingLocations[i] = starting;
-    }
-    return startingLocations;
-  }
+			int starting = floodFillRandom.nextInt(locationCount);
+			startingLocations[i] = starting;
+		}
+		return startingLocations;
+	}
 
-  private void mapStartingLocations(int[] startingLocations) {
-    for (int i = 1; i < startingLocations.length; i++) {
-      SinusoidalLocation loc = grid.getLocationByOrdinal(startingLocations[i]);
-      setPlateAtLoc(loc, i);
-    }
-  }
+	private void initializePlateDirections() {
+		DirectionSequenceGenerator seqGen = new DirectionSequenceGenerator();
+		for (int i = 1; i <= config.getPlateCount(); i++) {
+			DirectionSequence sequence = seqGen
+					.getSequenceByInt(floodFillRandom.nextInt());
+			tectMap.setDirectionSequence(sequence, i);
+		}
 
-  private int initializePlates() {
-    int plateCount = config.getPlateCount();
+	}
 
-    TectonicPlates plates = new TectonicPlates(plateCount);
-    plates.setSeaPlateCount(plateCount - config.getStartingLandPlateCount());
-    tectMap.setPlates(plates);
+	private void mapStartingLocations(int[] startingLocations) {
+		for (int i = 1; i < startingLocations.length; i++) {
+			SinusoidalLocation loc = grid
+					.getLocationByOrdinal(startingLocations[i]);
+			setPlateAtLoc(loc, i);
+		}
+	}
 
-    return plateCount;
-  }
+	private int initializePlates() {
+		int plateCount = config.getPlateCount();
 
-  public TectonicMap setPlateAtLoc(SinusoidalLocation loc, int plateIndex) {
-    tectMap.setPlateIndex(loc, plateIndex);
-    LocationList edgeSet = getNeighbourSet(plateIndex);
-    edgeSet.addAll(neighbourhoods.getNeighbours(loc));
-    return tectMap;
-  }
+		TectonicPlates plates = new TectonicPlates(plateCount);
+		plates.setSeaPlateCount(plateCount - config.getStartingLandPlateCount());
+		tectMap.setPlates(plates);
 
-  public LocationList getNeighbourSet(int plateIndex) {
-    return spreader.getNeighbourSet(plateIndex);
-  }
+		return plateCount;
+	}
 
-  public TectonicMap getTectonicMap() {
-    return tectMap;
-  }
+	public TectonicMap setPlateAtLoc(SinusoidalLocation loc, int plateIndex) {
+		tectMap.setPlateIndex(loc, plateIndex);
+		LocationList edgeSet = getNeighbourSet(plateIndex);
+		edgeSet.addAll(neighbourhoods.getNeighbours(loc));
+		return tectMap;
+	}
 
-  public TectonicMap seedPolarRegions() {
-    int maxY = grid.getMaxY();
-    for (int i = 0; i < 8; i++) {
-      setPlateAtLoc(grid.getLocation(i, maxY, 0), -1);
-      setPlateAtLoc(grid.getLocation(i, -maxY, 0), -1);
-    }
-    return tectMap;
-  }
+	public LocationList getNeighbourSet(int plateIndex) {
+		return spreader.getNeighbourSet(plateIndex);
+	}
 
-  public TectonicMap processMap() {
-    seedPlates();
-    floodFillPlates();
-    return tectMap;
-  }
+	public TectonicMap getTectonicMap() {
+		return tectMap;
+	}
 
-  public String getProcessName() {
-    return "Generating plates...";
-  }
+	public TectonicMap seedPolarRegions() {
+		int maxY = grid.getMaxY();
+		for (int i = 0; i < 8; i++) {
+			setPlateAtLoc(grid.getLocation(i, maxY, 0), -1);
+			setPlateAtLoc(grid.getLocation(i, -maxY, 0), -1);
+		}
+		return tectMap;
+	}
 
-  public void setProcess(MapProcess process) {
-    spreader.setProcess(process);
-  }
+	public TectonicMap processMap() {
+		seedPlates();
+		generatePlates();
+		initializePlateDirections();
+		return tectMap;
+	}
 
-  public void afterProcess(GeneratorScreen screen) {
-    screen.activateRiverMode();
-  }
+	public String getProcessName() {
+		return "Generating plates...";
+	}
 
-  public TectonicMap floodFillPlates() {
-    tectMap = spreader.floodFillPlates();
-    tectMap.generateBaseElevations();
-    return tectMap;
-  }
+	public void setProcess(MapProcess process) {
+		spreader.setProcess(process);
+	}
 
-  public SinusoidalLocation spreadPlateByOne(int i) {
-    return spreader.spreadPlateByOne(i);
-  }
+	public void afterProcess(GeneratorScreen screen) {
+		screen.activateRiverMode();
+	}
+
+	public TectonicMap generatePlates() {
+		tectMap = spreader.generatePlates();
+		tectMap.generateBaseElevations();
+		return tectMap;
+	}
+
+	public SinusoidalLocation spreadPlateByOne(int i) {
+		return spreader.spreadPlateByOne(i);
+	}
 
 }

@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.InputVerifier;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -21,274 +22,290 @@ import ca.hamann.mapgen.MapConfiguration;
 
 public class NewMapDialog extends JDialog {
 
-  private int currentGridRow = 0;
+	private int currentGridRow = 0;
 
-  private JDialog me;
-  private GeneratorScreen screen;
+	private JDialog me;
+	private GeneratorScreen screen;
 
-  private JLabel plateCountLabel;
-  private JTextField plateCountField;
+	private JLabel plateCountLabel;
+	private JTextField plateCountField;
 
-  private JLabel landPlateCountLabel;
-  private JTextField landPlateCountField;
+	private JLabel landPlateCountLabel;
+	private JTextField landPlateCountField;
 
-  private JLabel randomSeedLabel;
-  private JTextField randomSeedField;
+	private JLabel randomSeedLabel;
+	private JTextField randomSeedField;
 
-  private JLabel baseLandElevationLabel;
-  private JTextField baseLandElevationField;
+	private JLabel baseLandElevationLabel;
+	private JTextField baseLandElevationField;
 
-  private JLabel baseSeaElevationLabel;
-  private JTextField baseSeaElevationField;
+	private JLabel baseSeaElevationLabel;
+	private JTextField baseSeaElevationField;
 
-  private JButton cancel;
-  private JButton makeMap;
+	private JLabel lazySpreadingLabel;
+	private JCheckBox lazySpreadingCheckBox;
 
-  MapConfiguration config;
+	private JButton cancel;
+	private JButton makeMap;
 
-  public NewMapDialog(GeneratorScreen screen, String title, boolean modal)
-    throws HeadlessException {
-    super(screen, title, modal);
-    this.screen = screen;
-    config = screen.getMapConfiguration();
+	MapConfiguration config;
 
-    init();
-    pack();
-    setLocationRelativeTo(screen);
-    me = this;
+	public NewMapDialog(GeneratorScreen screen, String title, boolean modal)
+			throws HeadlessException {
+		super(screen, title, modal);
+		this.screen = screen;
+		config = screen.getMapConfiguration();
 
-  }
+		init();
+		pack();
+		setLocationRelativeTo(screen);
+		me = this;
 
-  private int getPlateCount() {
-    return getPositiveIntFromField(plateCountField);
-  }
+	}
 
-  private int getLandPlateCount() {
-    return getPositiveIntFromField(landPlateCountField);
-  }
+	private int getPlateCount() {
+		return getPositiveIntFromField(plateCountField);
+	}
 
-  private int getBaseLandElevation() {
-    return getPositiveIntFromField(baseLandElevationField);
-  }
+	private int getLandPlateCount() {
+		return getPositiveIntFromField(landPlateCountField);
+	}
 
-  private int getBaseSeaElevation() {
-    return getPositiveIntFromField(baseSeaElevationField);
-  }
+	private int getBaseLandElevation() {
+		return getPositiveIntFromField(baseLandElevationField);
+	}
 
-  private int getPositiveIntFromField(JTextField field) {
-    String text = field.getText();
+	private int getBaseSeaElevation() {
+		return getPositiveIntFromField(baseSeaElevationField);
+	}
 
-    if (text.trim().equals("")) {
-      return -1;
-    }
+	private int getPositiveIntFromField(JTextField field) {
+		String text = field.getText();
 
-    return Integer.parseInt(text);
-  }
+		if (text.trim().equals("")) {
+			return -1;
+		}
 
-  private void init() {
+		return Integer.parseInt(text);
+	}
 
-    Container pane = this.getContentPane();
-    pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+	private void init() {
 
-    JPanel c = new JPanel();
-    GridBagLayout layout = new GridBagLayout();
-    c.setLayout(layout);
+		Container pane = this.getContentPane();
+		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
-    plateCountLabel = new JLabel("Total Plates");
-    plateCountField = new JTextField(4);
-    plateCountField.setText("" + config.getPlateCount());
+		JPanel c = new JPanel();
+		GridBagLayout layout = new GridBagLayout();
+		c.setLayout(layout);
 
-    plateCountField.setInputVerifier(new InputVerifier() {
+		plateCountLabel = new JLabel("Total Plates");
+		plateCountField = new JTextField(4);
+		plateCountField.setText("" + config.getPlateCount());
 
-      public boolean verify(JComponent input) {
-        int value = getPlateCount();
+		plateCountField.setInputVerifier(new InputVerifier() {
 
-        if (value > 2 && value <= 200) {
-          return true;
-        }
-        return false;
-      }
-      public boolean shouldYieldFocus(JComponent input) {
-        JTextField field = (JTextField) input;
+			public boolean verify(JComponent input) {
+				int value = getPlateCount();
 
-        boolean result = verify(input);
-        if (!result) {
-          field.setText("" + config.getPlateCount());
-        }
-        return result;
-      }
-    });
+				if (value > 2 && value <= 200) {
+					return true;
+				}
+				return false;
+			}
 
-    //    c.add(getPairPanel(plateCountLabel, plateCountField));
-    addLabelFieldPair(c, plateCountLabel, plateCountField);
+			public boolean shouldYieldFocus(JComponent input) {
+				JTextField field = (JTextField) input;
 
-    landPlateCountLabel = new JLabel("Land Plates");
-    landPlateCountField = new JTextField(4);
-    landPlateCountField.setText("" + config.getStartingLandPlateCount());
+				boolean result = verify(input);
+				if (!result) {
+					field.setText("" + config.getPlateCount());
+				}
+				return result;
+			}
+		});
 
-    landPlateCountField.setInputVerifier(new InputVerifier() {
+		// c.add(getPairPanel(plateCountLabel, plateCountField));
+		addLabelFieldPair(c, plateCountLabel, plateCountField);
 
-      public boolean verify(JComponent input) {
-        int value = getLandPlateCount();
+		landPlateCountLabel = new JLabel("Land Plates");
+		landPlateCountField = new JTextField(4);
+		landPlateCountField.setText("" + config.getStartingLandPlateCount());
 
-        if (value >= 0 && value <= getPlateCount()) {
-          return true;
-        }
-        return false;
-      }
+		landPlateCountField.setInputVerifier(new InputVerifier() {
 
-      public boolean shouldYieldFocus(JComponent input) {
-        JTextField field = (JTextField) input;
+			public boolean verify(JComponent input) {
+				int value = getLandPlateCount();
 
-        boolean result = verify(input);
-        if (!result) {
-          field.setText("" + config.getStartingLandPlateCount());
-        }
-        return result;
-      }
-    });
+				if (value >= 0 && value <= getPlateCount()) {
+					return true;
+				}
+				return false;
+			}
 
-    //    c.add(getPairPanel(landPlateCountLabel, landPlateCountField));
-    addLabelFieldPair(c, landPlateCountLabel, landPlateCountField);
+			public boolean shouldYieldFocus(JComponent input) {
+				JTextField field = (JTextField) input;
 
-    baseLandElevationLabel = new JLabel("Land Elevation");
-    baseLandElevationField = new JTextField(4);
-    baseLandElevationField.setText("" + config.getBaseLandElevation());
+				boolean result = verify(input);
+				if (!result) {
+					field.setText("" + config.getStartingLandPlateCount());
+				}
+				return result;
+			}
+		});
 
-    baseLandElevationField.setInputVerifier(new InputVerifier() {
+		// c.add(getPairPanel(landPlateCountLabel, landPlateCountField));
+		addLabelFieldPair(c, landPlateCountLabel, landPlateCountField);
 
-      public boolean verify(JComponent input) {
-        int value = getBaseLandElevation();
+		baseLandElevationLabel = new JLabel("Land Elevation");
+		baseLandElevationField = new JTextField(4);
+		baseLandElevationField.setText("" + config.getBaseLandElevation());
 
-        if (value >= 0 && value <= 255) {
-          return true;
-        }
-        return false;
-      }
+		baseLandElevationField.setInputVerifier(new InputVerifier() {
 
-      public boolean shouldYieldFocus(JComponent input) {
-        JTextField field = (JTextField) input;
+			public boolean verify(JComponent input) {
+				int value = getBaseLandElevation();
 
-        boolean result = verify(input);
-        if (!result) {
-          field.setText("" + config.getBaseLandElevation());
-        }
-        return result;
-      }
-    });
+				if (value >= 0 && value <= 255) {
+					return true;
+				}
+				return false;
+			}
 
-    //    c.add(getPairPanel(baseLandElevationLabel, baseLandElevationField));
-    addLabelFieldPair(c, baseLandElevationLabel, baseLandElevationField);
+			public boolean shouldYieldFocus(JComponent input) {
+				JTextField field = (JTextField) input;
 
-    baseSeaElevationLabel = new JLabel("Sea Elevation");
-    baseSeaElevationField = new JTextField(4);
-    baseSeaElevationField.setText("" + config.getBaseSeaElevation());
+				boolean result = verify(input);
+				if (!result) {
+					field.setText("" + config.getBaseLandElevation());
+				}
+				return result;
+			}
+		});
 
-    baseSeaElevationField.setInputVerifier(new InputVerifier() {
+		// c.add(getPairPanel(baseLandElevationLabel, baseLandElevationField));
+		addLabelFieldPair(c, baseLandElevationLabel, baseLandElevationField);
 
-      public boolean verify(JComponent input) {
-        int value = getBaseSeaElevation();
+		baseSeaElevationLabel = new JLabel("Sea Elevation");
+		baseSeaElevationField = new JTextField(4);
+		baseSeaElevationField.setText("" + config.getBaseSeaElevation());
 
-        if (value >= 0 && value < getBaseLandElevation()) {
-          return true;
-        }
-        return false;
-      }
+		baseSeaElevationField.setInputVerifier(new InputVerifier() {
 
-      public boolean shouldYieldFocus(JComponent input) {
-        JTextField field = (JTextField) input;
+			public boolean verify(JComponent input) {
+				int value = getBaseSeaElevation();
 
-        boolean result = verify(input);
-        if (!result) {
-          field.setText("" + config.getBaseSeaElevation());
-        }
-        return result;
-      }
-    });
+				if (value >= 0 && value < getBaseLandElevation()) {
+					return true;
+				}
+				return false;
+			}
 
-    //    c.add(getPairPanel(baseSeaElevationLabel, baseSeaElevationField));
-    addLabelFieldPair(c, baseSeaElevationLabel, baseSeaElevationField);
+			public boolean shouldYieldFocus(JComponent input) {
+				JTextField field = (JTextField) input;
 
-    randomSeedLabel = new JLabel("Random Seed");
-    randomSeedField = new JTextField(4);
+				boolean result = verify(input);
+				if (!result) {
+					field.setText("" + config.getBaseSeaElevation());
+				}
+				return result;
+			}
+		});
 
-    //    c.add(getPairPanel(randomSeedLabel, randomSeedField));
-    addLabelFieldPair(c, randomSeedLabel, randomSeedField);
+		// c.add(getPairPanel(baseSeaElevationLabel, baseSeaElevationField));
+		addLabelFieldPair(c, baseSeaElevationLabel, baseSeaElevationField);
 
-    cancel = new JButton("Cancel");
+		randomSeedLabel = new JLabel("Random Seed");
+		randomSeedField = new JTextField(4);
 
-    cancel.addActionListener(new ActionListener() {
+		// c.add(getPairPanel(randomSeedLabel, randomSeedField));
+		addLabelFieldPair(c, randomSeedLabel, randomSeedField);
 
-      public void actionPerformed(ActionEvent e) {
-        me.dispose();
-      }
-    });
+		lazySpreadingLabel = new JLabel("Lazy Plate Spreading");
+		lazySpreadingCheckBox = new JCheckBox();
 
-    makeMap = new JButton("Make Map");
+		addLabelComponentPair(c, lazySpreadingLabel, lazySpreadingCheckBox);
 
-    getRootPane().setDefaultButton(makeMap);
+		cancel = new JButton("Cancel");
 
-    makeMap.addActionListener(new ActionListener() {
+		cancel.addActionListener(new ActionListener() {
 
-      public void actionPerformed(ActionEvent e) {
-        initConfig();
-        me.dispose();
-      }
+			public void actionPerformed(ActionEvent e) {
+				me.dispose();
+			}
+		});
 
-    });
+		makeMap = new JButton("Make Map");
 
-    GridBagConstraints constraints = new GridBagConstraints();
-    constraints.gridy = currentGridRow++;
-    constraints.gridwidth = 2;
-    pane.add(c);
-    pane.add(getPairPanel(cancel, makeMap), constraints);
+		getRootPane().setDefaultButton(makeMap);
 
-  }
+		makeMap.addActionListener(new ActionListener() {
 
-  private void addLabelFieldPair(Container c, JLabel label, JTextField field) {
-    label.setHorizontalAlignment(JLabel.RIGHT);
-    GridBagConstraints constraints = new GridBagConstraints();
-    constraints.gridy = currentGridRow++;
+			public void actionPerformed(ActionEvent e) {
+				initConfig();
+				me.dispose();
+			}
 
-    constraints.anchor = GridBagConstraints.EAST;
-    c.add(label, constraints);
-    field.setHorizontalAlignment(JTextField.RIGHT);
+		});
 
-    constraints.anchor = GridBagConstraints.WEST;
-    constraints.gridx = 1;
-    c.add(field, constraints);
-  }
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridy = currentGridRow++;
+		constraints.gridwidth = 2;
+		pane.add(c);
+		pane.add(getPairPanel(cancel, makeMap), constraints);
 
-  private void initConfig() {
+	}
 
-    config.setPlateCount(Integer.parseInt(plateCountField.getText()));
-    config.setStartingLandPlateCount(
-      Integer.parseInt(landPlateCountField.getText()));
+	private void addLabelFieldPair(Container c, JLabel label, JTextField field) {
+		addLabelComponentPair(c, label, field);
+		field.setHorizontalAlignment(JTextField.RIGHT);
+	}
 
-    config.setBaseLandElevation(
-      Integer.parseInt(baseLandElevationField.getText()));
-    config.setBaseSeaElevation(
-      Integer.parseInt(baseSeaElevationField.getText()));
+	private void addLabelComponentPair(Container c, JLabel label,
+			JComponent field) {
+		label.setHorizontalAlignment(JLabel.RIGHT);
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridy = currentGridRow++;
 
-    String seedStr = randomSeedField.getText();
+		constraints.anchor = GridBagConstraints.EAST;
+		c.add(label, constraints);
 
-    long seed = 0;
-    if (seedStr.trim().equals("")) {
-      seed = System.currentTimeMillis();
-    } else {
-      seed = Long.parseLong(seedStr);
-    }
+		constraints.anchor = GridBagConstraints.WEST;
+		constraints.gridx = 1;
+		c.add(field, constraints);
+	}
 
-    config.setStartingSeed(seed);
+	private void initConfig() {
 
-    screen.initMaps(config);
-  }
+		config.setPlateCount(Integer.parseInt(plateCountField.getText()));
+		config.setStartingLandPlateCount(Integer.parseInt(landPlateCountField
+				.getText()));
 
-  private Component getPairPanel(JComponent left, JComponent right) {
-    JPanel fieldPanel = new JPanel();
+		config.setBaseLandElevation(Integer.parseInt(baseLandElevationField
+				.getText()));
+		config.setBaseSeaElevation(Integer.parseInt(baseSeaElevationField
+				.getText()));
 
-    fieldPanel.add(left);
-    fieldPanel.add(right);
-    return fieldPanel;
-  }
+		String seedStr = randomSeedField.getText();
+
+		long seed = 0;
+		if (seedStr.trim().equals("")) {
+			seed = System.currentTimeMillis();
+		} else {
+			seed = Long.parseLong(seedStr);
+		}
+
+		config.setStartingSeed(seed);
+	
+		config.setLazySpreading(lazySpreadingCheckBox.isSelected());
+
+		screen.initMaps(config);
+	}
+
+	private Component getPairPanel(JComponent left, JComponent right) {
+		JPanel fieldPanel = new JPanel();
+
+		fieldPanel.add(left);
+		fieldPanel.add(right);
+		return fieldPanel;
+	}
 }

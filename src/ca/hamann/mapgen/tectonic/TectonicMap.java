@@ -202,4 +202,10 @@ public class TectonicMap {
 		return config.getSeaLevel();
 	}
 
+	public PlateSpreader getPlateSpreader() {
+		PlateSpreader spreader = new PlateSpreader(this);
+		spreader.setLazy(config.isLazySpreading());
+		return spreader;
+	}
+
 }

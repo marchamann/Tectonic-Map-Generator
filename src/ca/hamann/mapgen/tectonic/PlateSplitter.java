@@ -43,7 +43,7 @@ public class PlateSplitter {
     spreader.getNeighbourSet(oldPlateIndex).add(loc1);
     spreader.getNeighbourSet(emptyPlateIndex).add(loc2);
 
-    spreader.floodFillPlates();
+    spreader.generatePlates();
 
     EmptyLocationFiller filler = new EmptyLocationFiller(tectMap);
     filler.setRiftValleyMaker(false);

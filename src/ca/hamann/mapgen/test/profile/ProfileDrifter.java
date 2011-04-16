@@ -12,7 +12,7 @@ public class ProfileDrifter {
   public static void main(String[] args) {
     PlateGenerator gen = new PlateGenerator(new MapConfiguration(1));
 
-    tectMap = gen.floodFillPlates();
+    tectMap = gen.generatePlates();
 
     PlateDrifter drifter = new PlateDrifter(tectMap);
 

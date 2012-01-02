@@ -9,88 +9,101 @@ import javax.swing.JRadioButtonMenuItem;
 
 import ca.hamann.mapgen.gui.colourers.CollisionsColourer;
 import ca.hamann.mapgen.gui.colourers.ElevationColourer;
+import ca.hamann.mapgen.gui.colourers.GreyscaleElevationColourer;
 import ca.hamann.mapgen.gui.colourers.PlateColourer;
 import ca.hamann.mapgen.gui.colourers.RiversColourer;
 
 public class DisplayModesMenu extends JMenu {
 
-  private GeneratorScreen screen;
-  private JRadioButtonMenuItem plateMode, collisionMode,
-  //    landSeaMode,
-  elevationMode, riversMode;
-  private ButtonGroup modeButtons;
+	private GeneratorScreen screen;
+	private JRadioButtonMenuItem plateMode, collisionMode,
+			greyscaleElevationMode, elevationMode, riversMode;
+	private ButtonGroup modeButtons;
 
-  public DisplayModesMenu(GeneratorScreen screen) {
-    super("View");
-    this.screen = screen;
-    initDisplayModes();
+	public DisplayModesMenu(GeneratorScreen screen) {
+		super("View");
+		this.screen = screen;
+		initDisplayModes();
 
-    initButtonGroup();
+		initButtonGroup();
 
-    add(riversMode);
-    add(elevationMode);
-    add(plateMode);
-    add(collisionMode);
-  }
+		add(riversMode);
+		add(elevationMode);
+		add(plateMode);
+		add(collisionMode);
+		add(greyscaleElevationMode);
+	}
 
-  private void initButtonGroup() {
-    modeButtons = new ButtonGroup();
-    modeButtons.add(riversMode);
-    modeButtons.add(elevationMode);
-    modeButtons.add(plateMode);
-    modeButtons.add(collisionMode);
+	private void initButtonGroup() {
+		modeButtons = new ButtonGroup();
+		modeButtons.add(riversMode);
+		modeButtons.add(elevationMode);
+		modeButtons.add(plateMode);
+		modeButtons.add(collisionMode);
+		modeButtons.add(greyscaleElevationMode);
 
-    activateRiverMode();
-  }
+		activateRiverMode();
+	}
 
-  private void initDisplayModes() {
-    plateMode = new JRadioButtonMenuItem("Plates");
-    plateMode.addActionListener(new ActionListener() {
+	private void initDisplayModes() {
+		plateMode = new JRadioButtonMenuItem("Plates");
+		plateMode.addActionListener(new ActionListener() {
 
-      public void actionPerformed(ActionEvent e) {
-        screen.setCurrentColourer(new PlateColourer(screen.getTectonicMap()));
-        screen.updateImage();
-      }
-    });
+			public void actionPerformed(ActionEvent e) {
+				screen.setCurrentColourer(new PlateColourer(screen
+						.getTectonicMap()));
+				screen.updateImage();
+			}
+		});
 
-    collisionMode = new JRadioButtonMenuItem("Collisions");
-    collisionMode.addActionListener(new ActionListener() {
+		collisionMode = new JRadioButtonMenuItem("Collisions");
+		collisionMode.addActionListener(new ActionListener() {
 
-      public void actionPerformed(ActionEvent e) {
-        screen.setCurrentColourer(
-          new CollisionsColourer(screen.getTectonicMap()));
-        screen.updateImage();
-      }
-    });
+			public void actionPerformed(ActionEvent e) {
+				screen.setCurrentColourer(new CollisionsColourer(screen
+						.getTectonicMap()));
+				screen.updateImage();
+			}
+		});
 
+		elevationMode = new JRadioButtonMenuItem("Elevation");
+		elevationMode.addActionListener(new ActionListener() {
 
-    elevationMode = new JRadioButtonMenuItem("Elevation");
-    elevationMode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				screen.setCurrentColourer(new ElevationColourer(screen
+						.getTectonicMap()));
+				screen.updateImage();
+			}
+		});
 
-      public void actionPerformed(ActionEvent e) {
-        screen.setCurrentColourer(
-          new ElevationColourer(screen.getTectonicMap()));
-        screen.updateImage();
-      }
-    });
+		riversMode = new JRadioButtonMenuItem("Elevation/Rivers");
+		riversMode.addActionListener(new ActionListener() {
 
-    riversMode = new JRadioButtonMenuItem("Elevation/Rivers");
-    riversMode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				screen.setCurrentColourer(new RiversColourer(screen
+						.getTectonicMap()));
+				screen.updateImage();
+			}
+		});
 
-      public void actionPerformed(ActionEvent e) {
-        screen.setCurrentColourer(new RiversColourer(screen.getTectonicMap()));
-        screen.updateImage();
-      }
-    });
+		greyscaleElevationMode = new JRadioButtonMenuItem("Greyscale");
+		greyscaleElevationMode.addActionListener(new ActionListener() {
 
-  }
+			public void actionPerformed(ActionEvent e) {
+				screen.setCurrentColourer(new GreyscaleElevationColourer(screen
+						.getTectonicMap()));
+				screen.updateImage();
+			}
+		});
 
-  public void activateRiverMode() {
-    modeButtons.setSelected(riversMode.getModel(), true);
-  }
+	}
 
-  public void activatePlateMode() {
-    modeButtons.setSelected(plateMode.getModel(), true);
-  }
+	public void activateRiverMode() {
+		modeButtons.setSelected(riversMode.getModel(), true);
+	}
+
+	public void activatePlateMode() {
+		modeButtons.setSelected(plateMode.getModel(), true);
+	}
 
 }

@@ -22,7 +22,7 @@ public class GreyscaleElevationColourer implements LocationColourer {
 		else if (altitude > 255)
 			colour = 0xFFFFFF;
 		else {
-			int colourComponant = altitude / 2;
+			int colourComponant = altitude;
 			colour = new Color(colourComponant, colourComponant,
 					colourComponant).getRGB();
 		}

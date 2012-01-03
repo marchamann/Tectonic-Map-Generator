@@ -126,13 +126,17 @@ public class PlateDrifter implements MapProcessor {
 
 		fillEmptyLocations();
 
-		Eroder eroder = new Eroder(toMap);
-
-		toMap = eroder.erodeMap();
+		applyErosion();
 
 		splitPlatesIfNecessary(toMap);
 
 		return toMap;
+	}
+
+	private void applyErosion() {
+		Eroder eroder = new Eroder(toMap);
+
+		toMap = eroder.erodeMap();
 	}
 
 	private void splitPlatesIfNecessary(TectonicMap tectMap) {

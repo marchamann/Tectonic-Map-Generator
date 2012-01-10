@@ -5,27 +5,27 @@ import java.util.Random;
 import ca.hamann.mapgen.sinusoidal.SinusoidalGrid;
 
 public class MapConfiguration {
+	private SinusoidalGrid grid = new SinusoidalGrid(0);
+
+	private int plateCount = 20;
 
 	private int baseLandElevation = 130;
 	private int baseSeaElevation = 64;
 
 	private long startingSeed = 0;
 
-	private int plateCount = 20;
 	private int startingLandPlateCount = 6;
+
+	private boolean lazySpreading = false;
+
+	private String plateCreationMethod = "Flood Fill";
 
 	private int seaLevel = 128;
 
 	private int collisionIncrement = 7;
 	private int erosionLimit = 5;
 
-	private SinusoidalGrid grid;
-
 	private Random random;
-
-	private boolean lazySpreading = false;
-	
-	private String plateCreationMethod = "Flood Fill";
 
 	public MapConfiguration() {
 		initRandom();
@@ -124,6 +124,8 @@ public class MapConfiguration {
 	public void setPlateCreationMethod(String plateCreationMethod) {
 		this.plateCreationMethod = plateCreationMethod;
 	}
-	
-	
+
+	public int getHalfSpearWidth() {
+		return grid.getHalfSpearWidth();
+	}
 }

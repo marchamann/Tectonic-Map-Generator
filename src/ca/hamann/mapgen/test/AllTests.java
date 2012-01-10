@@ -11,7 +11,7 @@ public class AllTests {
 		suite.addTestSuite(TestPlateGenerator.class);
 		suite.addTestSuite(TestCoastInlandDivider.class);
 		suite.addTestSuite(TestNonLinearMapStorage.class);
-		suite.addTestSuite(TestMapConfigurationSerializer.class);
+		suite.addTestSuite(TestMapConfigurationWriter.class);
 		suite.addTestSuite(TestPlateDrifter.class);
 		suite.addTestSuite(TestNeighbourhoods.class);
 		suite.addTestSuite(TestLattitudeDrifter.class);

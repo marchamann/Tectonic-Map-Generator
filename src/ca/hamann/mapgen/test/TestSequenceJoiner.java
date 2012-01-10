@@ -1,7 +1,7 @@
 package ca.hamann.mapgen.test;
 
 import junit.framework.TestCase;
-import ca.hamann.mapgen.serialize.SequenceJoiner;
+import ca.hamann.mapgen.persistence.save.json.SequenceJoiner;
 
 public class TestSequenceJoiner extends TestCase {
 	private SequenceJoiner joiner;

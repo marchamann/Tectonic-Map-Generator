@@ -1,11 +1,11 @@
-package ca.hamann.mapgen.serialize;
+package ca.hamann.mapgen.persistence.save.json;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class SequenceJoiner {
-	private String delimiter = ",";
+	private String delimiter = ", ";
 	private List<String> strings = new ArrayList<String>();
 
 	public String join() {

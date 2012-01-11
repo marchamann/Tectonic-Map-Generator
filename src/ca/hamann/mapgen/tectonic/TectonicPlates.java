@@ -30,21 +30,10 @@ public class TectonicPlates {
 
 	}
 
-	// public void setLandPlate(int index) {
-	// getPlate(index).setLandPlate();
-	// }
-	//
-	// public void setSeaPlate(int index) {
-	// getPlate(index).setSeaPlate();
-	//
-	// }
-
 	public int lessDensePlate(int plateIndex1, int plateIndex2) {
 		int result = plateIndex1;
-		// Plate plate1 = getPlate(plateIndex1);
-		// Plate plate2 = getPlate(plateIndex2);
 
-		boolean isSea1 = !isLandPlate(plateIndex1); // plate1.isSeaPlate();
+		boolean isSea1 = !isLandPlate(plateIndex1);
 		boolean isSea2 = !isLandPlate(plateIndex2);
 
 		if (isSea1 && !isSea2) {

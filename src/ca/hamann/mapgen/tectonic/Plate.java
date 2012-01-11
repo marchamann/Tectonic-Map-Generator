@@ -11,20 +11,6 @@ public class Plate {
     this.index = index;
   }
 
-//  private boolean landPlate;
-//
-//  public void setSeaPlate() {
-//    landPlate = false;
-//  }
-//
-//  public void setLandPlate() {
-//    landPlate = true;
-//  }
-//
-//  public boolean isSeaPlate() {
-//    return !landPlate;
-//  }
-
   public void setDirectionSequence(DirectionSequence sequence) {
     this.sequence = sequence;
   }

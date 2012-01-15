@@ -14,7 +14,7 @@ public class TestMapConfigurationWriter extends TestCase {
 		writer = new MapConfigurationWriter();
 	}
 
-	public void testSerialize() throws Exception {
+	public void testWrite() throws Exception {
 		config.setHalfSpearWidth(1);
 		config.setPlateCount(2);
 		config.setBaseLandElevation(3);
@@ -24,10 +24,10 @@ public class TestMapConfigurationWriter extends TestCase {
 		config.setLazySpreading(true);
 		config.setPlateCreationMethod("test");
 
-		String expected = "{ halfSpearWidth : 1, " + "plateCount : 2, "
-				+ "baseLandElevation : 3, " + "baseSeaElevation : 4, "
-				+ "startingSeed : 5, " + "startingLandPlateCount : 6, "
-				+ "lazySpreading : true, " + "plateCreationMethod : test"
+		String expected = "{ halfSpearWidth : 1,\n" + "plateCount : 2,\n"
+				+ "baseLandElevation : 3,\n" + "baseSeaElevation : 4,\n"
+				+ "startingSeed : 5,\n" + "startingLandPlateCount : 6,\n"
+				+ "lazySpreading : true,\n" + "plateCreationMethod : test"
 				+ " }";
 		assertEquals(expected, writer.write(config));
 	}

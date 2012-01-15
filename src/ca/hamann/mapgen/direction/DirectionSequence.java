@@ -69,4 +69,9 @@ public class DirectionSequence {
 	public int subSequenceCount() {
 		return sequence.size();
 	}
+
+	public List<DirectionSubSequence> getSequence() {
+		return sequence;
+	}
+
 }

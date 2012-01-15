@@ -1,9 +1,10 @@
 package ca.hamann.mapgen.persistence.save;
 
 import ca.hamann.mapgen.MapConfiguration;
+import ca.hamann.mapgen.persistence.save.json.JsonObjectWriter;
 import ca.hamann.mapgen.persistence.save.json.SequenceJoiner;
 
-public class MapConfigurationWriter {
+public class MapConfigurationWriter extends JsonObjectWriter {
 
 	public String write(MapConfiguration config) {
 		int halfSpearWidth = config.getHalfSpearWidth();
@@ -23,27 +24,8 @@ public class MapConfigurationWriter {
 		joiner.addString(formatMemberPair("plateCreationMethod",
 				config.getPlateCreationMethod()));
 
-		return "{ " + joiner.join() + " }";
-	}
-
-	private String formatInteger(int value) {
-		return Integer.toString(value);
-	}
-
-	public String formatMemberPair(String name, String value) {
-		return name + " : " + value;
-	}
-
-	public String formatMemberPair(String name, int value) {
-		return formatMemberPair(name, formatInteger(value));
-	}
-
-	private String formatMemberPair(String name, long value) {
-		return formatMemberPair(name, Long.toString(value));
-	}
-
-	private String formatMemberPair(String name, boolean value) {
-		return formatMemberPair(name, Boolean.toString(value));
+		joiner.setDelimiter(",\n");
+		return write(joiner);
 	}
 
 }

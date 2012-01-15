@@ -2,7 +2,6 @@ package ca.hamann.mapgen.test;
 
 import junit.framework.TestCase;
 import ca.hamann.mapgen.direction.DirectionSequence;
-import ca.hamann.mapgen.direction.DirectionSequenceGenerator;
 import ca.hamann.mapgen.direction.MapDirection;
 
 public class TestDirectionSequence extends TestCase {
@@ -11,11 +10,8 @@ public class TestDirectionSequence extends TestCase {
 	private MapDirection north = MapDirection.NORTH;
 	private MapDirection south = MapDirection.SOUTH;
 
-	private DirectionSequenceGenerator seqGen;
-
 	protected void setUp() throws Exception {
 		seq = new DirectionSequence();
-		seqGen = new DirectionSequenceGenerator();
 	}
 
 	protected void tearDown() throws Exception {

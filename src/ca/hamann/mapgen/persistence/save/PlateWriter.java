@@ -27,7 +27,7 @@ public class PlateWriter extends JsonObjectWriter {
 		return writeDirections(plate.getDirectionSequence().getSequence());
 	}
 
-	private String writeDirections(List<DirectionSubSequence> dirs) {
+	public String writeDirections(List<DirectionSubSequence> dirs) {
 		DirectionSubsequenceWriter writer = new DirectionSubsequenceWriter();
 		JsonArrayWriter arrWriter = new JsonArrayWriter();
 		SequenceJoiner joiner = new SequenceJoiner();

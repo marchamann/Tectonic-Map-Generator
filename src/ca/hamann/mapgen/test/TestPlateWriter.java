@@ -13,6 +13,7 @@ public class TestPlateWriter extends TestCase {
 		plate.setCount(1);
 		DirectionSequence sequence = new DirectionSequence();
 		sequence.append(MapDirection.NORTH);
+		sequence.append(MapDirection.SOUTH);
 
 		plate.setDirectionSequence(sequence);
 
@@ -21,7 +22,8 @@ public class TestPlateWriter extends TestCase {
 		assertEquals(
 				"{ index : 0,\n"
 						+ "count : 1,\n"
-						+ "directionSequence : [ { direction : NORTH, repetitionCount : 1 } ]"
+						+ "directionSequence : [ { direction : NORTH, repetitionCount : 1 },"
+						+ "{ direction : SOUTH, repetitionCount : 1 } ]"
 						+ " }", writer.write(plate));
 	}
 }

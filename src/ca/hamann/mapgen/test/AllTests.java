@@ -30,9 +30,11 @@ public class AllTests {
 		suite.addTestSuite(TestRiverMaker.class);
 		suite.addTestSuite(TestSubductionRelation.class);
 		suite.addTestSuite(TestMapConfigurationWriter.class);
+		suite.addTestSuite(TestDirectionSubSequenceParser.class);
 		suite.addTestSuite(TestPlateSerializer.class);
 		suite.addTestSuite(TestSinusoidalMap.class);
 		suite.addTestSuite(TestDrainageProcessor.class);
+		suite.addTestSuite(TestJsonArrayParser.class);
 		suite.addTestSuite(TestRotater.class);
 		suite.addTestSuite(TestPlateWriter.class);
 		suite.addTestSuite(TestSinusoidalLocation.class);

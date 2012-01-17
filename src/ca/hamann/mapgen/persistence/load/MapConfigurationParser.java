@@ -5,11 +5,14 @@ import ca.hamann.mapgen.persistence.load.json.JsonObject;
 import ca.hamann.mapgen.persistence.load.json.JsonObjectParser;
 
 public class MapConfigurationParser {
+	JsonObjectParser parser = new JsonObjectParser();
 
 	public MapConfiguration parse(String input) {
-		JsonObjectParser parser = new JsonObjectParser();
 		JsonObject obj = parser.parse(input);
+		return populateMapConfiguration(obj);
+	}
 
+	private MapConfiguration populateMapConfiguration(JsonObject obj) {
 		MapConfiguration result = new MapConfiguration(1);
 		result.setHalfSpearWidth(obj.getValueAsInt("halfSpearWidth"));
 		result.setPlateCount(obj.getValueAsInt("plateCount"));

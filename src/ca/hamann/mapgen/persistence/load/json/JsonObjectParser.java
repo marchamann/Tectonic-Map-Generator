@@ -1,6 +1,6 @@
 package ca.hamann.mapgen.persistence.load.json;
 
-public class JsonObjectParser {
+public class JsonObjectParser implements ValueParser<JsonObject> {
 
 	public JsonObject parse(String input) {
 		JsonObject result = new JsonObject();

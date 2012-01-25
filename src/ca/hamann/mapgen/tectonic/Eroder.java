@@ -23,7 +23,7 @@ public class Eroder implements MapProcessor {
   public int erodeLocation(SinusoidalLocation loc) {
     int elevation = tectMap.getElevation(loc);
 
-    tectMap.setAccummulatedWater(loc, 0);
+    tectMap.setAccumulatedWater(loc, 0);
     tectMap.setFlow(loc, 0);
 
     LocationCollection neighbours = getElevationOrderedNeighbours(loc);

@@ -115,4 +115,8 @@ public class TectonicPlates {
 		seaPlateCount = count;
 	}
 
+	public int getPlateCount() {
+		return plateCount;
+	}
+
 }

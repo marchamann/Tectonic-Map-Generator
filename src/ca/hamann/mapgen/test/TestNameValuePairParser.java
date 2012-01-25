@@ -27,4 +27,15 @@ public class TestNameValuePairParser extends TestCase {
 		assertEquals(" name", pair.getName());
 	}
 
+	public void testParseNameWithObjectValue() throws Exception {
+		pair = parser.parse("\"name\" : { name2 : value }");
+
+		assertEquals("name", pair.getName());
+		assertEquals("{ name2 : value }", pair.getValue());
+	}
+
+	public void testParseWithEmptyInput() throws Exception {
+		parser.parse(" ");
+	}
+
 }

@@ -163,8 +163,8 @@ public class DrainageProcessor implements MapProcessor {
     return tectMap;
   }
 
-  public void setAccummulatedWater(SinusoidalLocation loc, int value) {
-    tectMap.setAccummulatedWater(loc, value);
+  public void setAccumulatedWater(SinusoidalLocation loc, int value) {
+    tectMap.setAccumulatedWater(loc, value);
   }
 
   public int getFlow(SinusoidalLocation loc) {

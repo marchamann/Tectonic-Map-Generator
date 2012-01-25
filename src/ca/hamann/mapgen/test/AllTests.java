@@ -15,8 +15,10 @@ public class AllTests {
 		suite.addTestSuite(TestDirectionSubsequenceWriter.class);
 		suite.addTestSuite(TestPlateDrifter.class);
 		suite.addTestSuite(TestNeighbourhoods.class);
-		suite.addTestSuite(TestLattitudeDrifter.class);
 		suite.addTestSuite(TestDirectionSequence.class);
+		suite.addTestSuite(TestLattitudeDrifter.class);
+		suite.addTestSuite(TestNextCommaParser.class);
+		suite.addTestSuite(TestBufferedNextCommaReader.class);
 		suite.addTestSuite(TestTectonicValues.class);
 		suite.addTestSuite(TestSinusoidalProjection.class);
 		suite.addTestSuite(TestPlateSplitter.class);
@@ -26,6 +28,8 @@ public class AllTests {
 		suite.addTestSuite(TestLakeFiller.class);
 		suite.addTestSuite(TestSequenceJoiner.class);
 		suite.addTestSuite(TestLandSeaDivider.class);
+		suite.addTestSuite(TestTectonicMapReader.class);
+		suite.addTestSuite(TestPlateParser.class);
 		suite.addTestSuite(TestJsonObjectParser.class);
 		suite.addTestSuite(TestRiverMaker.class);
 		suite.addTestSuite(TestSubductionRelation.class);
@@ -40,6 +44,7 @@ public class AllTests {
 		suite.addTestSuite(TestSinusoidalLocation.class);
 		suite.addTestSuite(TestSequenceFiller.class);
 		suite.addTestSuite(TestJsonArrayWriter.class);
+		suite.addTestSuite(TestLocationWriter.class);
 		suite.addTestSuite(TestEroder.class);
 		suite.addTestSuite(TestClosureDivider.class);
 		suite.addTestSuite(TestSinusoidalMapStorage.class);

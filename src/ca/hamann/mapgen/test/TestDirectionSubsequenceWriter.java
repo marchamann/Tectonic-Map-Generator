@@ -12,7 +12,8 @@ public class TestDirectionSubsequenceWriter extends TestCase {
 				MapDirection.NORTH, 1);
 		DirectionSubsequenceWriter writer = new DirectionSubsequenceWriter();
 
-		assertEquals("{ direction : NORTH, repetitionCount : 1 }", writer.write(sequence));
+		assertEquals("{ \"direction\" : NORTH, \"repetitionCount\" : 1 }",
+				writer.write(sequence));
 
 	}
 }

@@ -27,7 +27,7 @@ public class TestLakeFiller extends DrainageBaseTest {
   public void testGetLowestClosure() {
     SinusoidalLocation lowest = filler.removeNextLowestLocation();
     filler.fillLakeWithBottom(lowest);
-    assertEquals(1, tectMap.getAccummulatedWater(origin));
+    assertEquals(1, tectMap.getAccumulatedWater(origin));
   }
 
   public void testFillLakes() {

@@ -8,9 +8,10 @@ import ca.hamann.mapgen.persistence.save.json.DirectionSubsequenceWriter;
 
 public class TestDirectionSubSequenceParser extends TestCase {
 
+	private DirectionSubSequenceParser parser = new DirectionSubSequenceParser();
+
 	public void testParse() throws Exception {
 		DirectionSubsequenceWriter writer = new DirectionSubsequenceWriter();
-		DirectionSubSequenceParser parser = new DirectionSubSequenceParser();
 
 		DirectionSubSequence seq1 = new DirectionSubSequence(
 				MapDirection.IDENTITY, 2);
@@ -18,5 +19,9 @@ public class TestDirectionSubSequenceParser extends TestCase {
 		DirectionSubSequence result = parser.parse(writer.write(seq1));
 		assertEquals(MapDirection.IDENTITY, result.getDirection());
 		assertEquals(2, result.getRepetitionCount());
+	}
+
+	public void testParseWithEmptyInput() throws Exception {
+		assertNull(parser.parse(" "));
 	}
 }

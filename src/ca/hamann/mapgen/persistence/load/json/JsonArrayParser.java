@@ -8,18 +8,22 @@ public class JsonArrayParser<T> {
 	private ValueParser<T> parser;
 
 	public List<T> parse(String input) {
+		NextCommaParser commaParser = new NextCommaParser();
 		List<T> result = new ArrayList<T>();
 
-		String[] arr = extractValues(input);
-		for (String value : arr) {
-			result.add(parser.parse(value.trim()));
+		String string = stripSquareBrackets(input);
 
+		int comma = commaParser.parse(string);
+
+		while (comma != -1) {
+			String value = string.substring(0, comma);
+			result.add(parser.parse(value));
+			string = string.substring(comma + 1);
+			comma = commaParser.parse(string);
 		}
-		return result;
-	}
+		result.add(parser.parse(string));
 
-	private String[] extractValues(String input) {
-		return stripSquareBrackets(input).split(",");
+		return result;
 	}
 
 	private String stripSquareBrackets(String input) {

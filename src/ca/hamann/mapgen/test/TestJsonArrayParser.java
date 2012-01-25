@@ -16,7 +16,7 @@ public class TestJsonArrayParser extends TestCase {
 		parser.setParser(new ValueParser<String>() {
 			@Override
 			public String parse(String input) {
-				return input;
+				return input.trim();
 			}
 		});
 	}
@@ -31,6 +31,12 @@ public class TestJsonArrayParser extends TestCase {
 		List<String> result = parser.parse(" [ value1 , value2 ] ");
 		assertEquals("value1", result.get(0));
 		assertEquals("value2", result.get(1));
+	}
+
+	public void testParseWithNestedArrayValue() throws Exception {
+		List<String> result = parser.parse(" [ value1 , [ value2, value3 ] ] ");
+		assertEquals("value1", result.get(0));
+		assertEquals("[ value2, value3 ]", result.get(1));
 	}
 
 }

@@ -12,7 +12,9 @@ public class JsonObject {
 	}
 
 	public void addPair(NameValuePair pair) {
-		map.put(pair.getName(), pair.getValue());
+		if (pair != null) {
+			map.put(pair.getName(), pair.getValue());
+		}
 	}
 
 	public int getValueAsInt(String name) {
@@ -25,5 +27,9 @@ public class JsonObject {
 
 	public boolean getValueAsBoolean(String name) {
 		return Boolean.parseBoolean(getValue(name));
+	}
+
+	public boolean isEmpty() {
+		return map.isEmpty();
 	}
 }

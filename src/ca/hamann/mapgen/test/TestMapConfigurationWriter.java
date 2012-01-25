@@ -24,20 +24,22 @@ public class TestMapConfigurationWriter extends TestCase {
 		config.setLazySpreading(true);
 		config.setPlateCreationMethod("test");
 
-		String expected = "{ halfSpearWidth : 1,\n" + "plateCount : 2,\n"
-				+ "baseLandElevation : 3,\n" + "baseSeaElevation : 4,\n"
-				+ "startingSeed : 5,\n" + "startingLandPlateCount : 6,\n"
-				+ "lazySpreading : true,\n" + "plateCreationMethod : test"
-				+ " }";
+		String expected = "{ \"halfSpearWidth\" : 1,\n"
+				+ "\"plateCount\" : 2,\n" + "\"baseLandElevation\" : 3,\n"
+				+ "\"baseSeaElevation\" : 4,\n" + "\"startingSeed\" : 5,\n"
+				+ "\"startingLandPlateCount\" : 6,\n"
+				+ "\"lazySpreading\" : true,\n"
+				+ "\"plateCreationMethod\" : test" + " }";
 		assertEquals(expected, writer.write(config));
 	}
 
 	public void testFormatMemberPair() throws Exception {
-		assertEquals("name : value", writer.formatMemberPair("name", "value"));
+		assertEquals("\"name\" : value",
+				writer.formatMemberPair("name", "value"));
 	}
 
 	public void testFormatIntegerMemberPair() throws Exception {
-		assertEquals("name : 1", writer.formatMemberPair("name", 1));
+		assertEquals("\"name\" : 1", writer.formatMemberPair("name", 1));
 	}
 
 }

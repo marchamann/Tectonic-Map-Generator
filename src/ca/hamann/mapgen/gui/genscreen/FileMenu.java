@@ -3,6 +3,7 @@ package ca.hamann.mapgen.gui.genscreen;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -11,7 +12,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import ca.hamann.mapgen.containers.LocationIterator;
+import ca.hamann.mapgen.persistence.load.TectonicMapReader;
+import ca.hamann.mapgen.persistence.save.TectonicMapWriter;
 import ca.hamann.mapgen.tectonic.TectonicMap;
 
 public class FileMenu extends JMenu {
@@ -27,6 +29,7 @@ public class FileMenu extends JMenu {
 		super("File");
 		this.screen = screen;
 		initItems();
+		initLoadSave();
 	}
 
 	private void initItems() {
@@ -107,17 +110,15 @@ public class FileMenu extends JMenu {
 					FileWriter fw = null;
 
 					try {
+						screen.setProgressText("Saving...");
 						fw = new FileWriter(file);
 
 						TectonicMap tectMap = screen.getTectonicMap();
-						LocationIterator iterator = screen.getGrid().iterator();
-						while (iterator.hasNext()) {
-
-							fw.write(Integer.toString(tectMap
-									.getElevation(iterator.next())) + "\n");
-						}
+						TectonicMapWriter writer = new TectonicMapWriter();
+						writer.write(fw, tectMap);
 
 						fw.close();
+						screen.setProgressText("Saving... done.");
 					} catch (IOException ioe) {
 						throw new RuntimeException(ioe);
 					}
@@ -128,6 +129,48 @@ public class FileMenu extends JMenu {
 		});
 
 		loadMap = new JMenuItem("Load Map");
+		loadMap.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser("Load map..");
+
+				int result = chooser.showOpenDialog(screen);
+
+				if (result == JFileChooser.APPROVE_OPTION) {
+
+					File file = chooser.getSelectedFile();
+
+					String filename = file.getAbsolutePath();
+					String extension = ".map";
+
+					if (!filename.endsWith(extension)) {
+						filename = filename + extension;
+						file = new File(filename);
+					}
+
+					FileReader fr = null;
+
+					try {
+						screen.setProgressText("Loading...");
+						fr = new FileReader(file);
+
+						TectonicMapReader reader = new TectonicMapReader();
+						System.out.println("Loading...");
+						TectonicMap map = reader.read(fr);
+						screen.setTectonicMap(map);
+						screen.setCurrentColourerMap(map);
+						System.out.println("...done");
+						fr.close();
+						screen.updateImage();
+						screen.setProgressText("Loading...done.");
+					} catch (IOException ioe) {
+						throw new RuntimeException(ioe);
+					}
+
+				}
+
+			}
+		});
 
 		add(saveMap);
 		add(loadMap);

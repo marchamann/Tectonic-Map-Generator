@@ -6,7 +6,7 @@ public class Plate {
 
   private int index;
   private int count = 0;
-  private DirectionSequence sequence;
+  private DirectionSequence sequence = new DirectionSequence();
   public Plate(int index) {
     this.index = index;
   }

@@ -36,8 +36,8 @@ public class Rotater implements MapProcessor {
 			toLoc = baseMap.getLocation(spear, fromLoc.getY(), fromLoc.getX());
 
 			toMap.setTectonicValues(toLoc, fromMap.getTectonicValues(fromLoc));
-			toMap.setAccummulatedWater(toLoc,
-					fromMap.getAccummulatedWater(fromLoc));
+			toMap.setAccumulatedWater(toLoc,
+					fromMap.getAccumulatedWater(fromLoc));
 			toMap.setFlow(toLoc, fromMap.getFlow(fromLoc));
 		}
 

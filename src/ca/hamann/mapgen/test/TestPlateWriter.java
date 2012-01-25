@@ -20,10 +20,10 @@ public class TestPlateWriter extends TestCase {
 		PlateWriter writer = new PlateWriter();
 
 		assertEquals(
-				"{ index : 0,\n"
-						+ "count : 1,\n"
-						+ "directionSequence : [ { direction : NORTH, repetitionCount : 1 },"
-						+ "{ direction : SOUTH, repetitionCount : 1 } ]"
+				"{ \"index\" : 0,\n"
+						+ "\"count\" : 1,\n"
+						+ "\"directionSequence\" : [ { \"direction\" : NORTH, \"repetitionCount\" : 1 },"
+						+ "{ \"direction\" : SOUTH, \"repetitionCount\" : 1 } ]"
 						+ " }", writer.write(plate));
 	}
 }

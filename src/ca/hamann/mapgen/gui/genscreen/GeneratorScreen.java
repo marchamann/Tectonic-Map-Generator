@@ -169,7 +169,7 @@ public class GeneratorScreen extends JFrame {
 	}
 
 	private LocationColourer getCurrentColourer() {
-		return currentColourer;
+			return currentColourer;
 	}
 
 	public void setCurrentColourerMap(TectonicMap tectMap) {

@@ -7,7 +7,7 @@ public class JsonObjectWriter {
 	}
 
 	public String formatMemberPair(String name, String value) {
-		return name + " : " + value;
+		return "\"" + name + "\"" + " : " + value;
 	}
 
 	public String formatMemberPair(String name, int value) {

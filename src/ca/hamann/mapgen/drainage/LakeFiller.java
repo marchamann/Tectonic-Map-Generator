@@ -49,7 +49,7 @@ public class LakeFiller {
         int difference =
           processor.getElevation(drain) - processor.getElevation(next);
 
-        processor.setAccummulatedWater(next, difference);
+        processor.setAccumulatedWater(next, difference);
       }
     }
 

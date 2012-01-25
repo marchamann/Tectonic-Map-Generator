@@ -17,7 +17,7 @@ public class TectonicMap {
 	private MapConfiguration config;
 
 	private SinusoidalMapStorage plateMap, collisionMap, elevationMap,
-			accummulatedWaterMap, flowMap;
+			accumulatedWaterMap, flowMap;
 
 	private TectonicPlates plates;
 
@@ -29,7 +29,7 @@ public class TectonicMap {
 		plateMap = new SinusoidalMapStorage(grid);
 		collisionMap = new SinusoidalMapStorage(grid);
 		elevationMap = new SinusoidalMapStorage(grid);
-		accummulatedWaterMap = new SinusoidalMapStorage(grid);
+		accumulatedWaterMap = new SinusoidalMapStorage(grid);
 		flowMap = new SinusoidalMapStorage(grid);
 
 		plates = new TectonicPlates(config.getPlateCount());
@@ -166,12 +166,12 @@ public class TectonicMap {
 		return config;
 	}
 
-	public int getAccummulatedWater(SinusoidalLocation loc) {
-		return accummulatedWaterMap.getValue(loc);
+	public int getAccumulatedWater(SinusoidalLocation loc) {
+		return accumulatedWaterMap.getValue(loc);
 	}
 
-	public void setAccummulatedWater(SinusoidalLocation loc, int value) {
-		accummulatedWaterMap.putValue(loc, value);
+	public void setAccumulatedWater(SinusoidalLocation loc, int value) {
+		accumulatedWaterMap.putValue(loc, value);
 	}
 
 	public int getFlow(SinusoidalLocation loc) {

@@ -14,7 +14,7 @@ public class RiversColourer extends ElevationColourer {
   public int getColourForLocation(SinusoidalLocation loc) {
     int landWater = new Color(150, 200, 255).getRGB();
 
-    if (tectMap.getAccummulatedWater(loc) > 0) {
+    if (tectMap.getAccumulatedWater(loc) > 0) {
       return landWater; //Color.CYAN.getRGB();
     }
 

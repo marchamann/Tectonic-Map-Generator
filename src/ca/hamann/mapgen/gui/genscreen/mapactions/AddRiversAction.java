@@ -12,7 +12,7 @@ public class AddRiversAction extends MapAction {
 
 	@Override
 	public int getIterations() {
-		return screen.getIterations();
+		return 1;
 	}
 
 	@Override

@@ -29,13 +29,14 @@ public class DirectionSequence {
 		if (!sequence.isEmpty() && repetitionsLeft == 0) {
 			currentSubSequenceIndex = incrementCurrent();
 			currentSubSequence = sequence.get(currentSubSequenceIndex);
+			if (currentSubSequence == null) {
+				currentSubSequence = new DirectionSubSequence(
+						MapDirection.IDENTITY);
+			}
 			repetitionsLeft = currentSubSequence.getRepetitionCount();
 		}
 		repetitionsLeft--;
 
-		if (currentSubSequence == null) {
-			return MapDirection.IDENTITY;
-		}
 		return currentSubSequence.getDirection();
 	}
 

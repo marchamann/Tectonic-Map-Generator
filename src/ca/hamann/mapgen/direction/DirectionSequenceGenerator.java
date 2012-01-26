@@ -86,7 +86,7 @@ public class DirectionSequenceGenerator {
 	public DirectionSequence getSequenceByInt(int index) {
 		DirectionSequence sequence = new DirectionSequence();
 
-		index = index % 6;
+		index = Math.abs(index) % 6;
 
 		switch (index) {
 		case 1:

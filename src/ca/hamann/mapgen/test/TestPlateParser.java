@@ -8,18 +8,26 @@ import ca.hamann.mapgen.persistence.save.PlateWriter;
 import ca.hamann.mapgen.tectonic.Plate;
 
 public class TestPlateParser extends TestCase {
-	public void testParse() throws Exception {
-		PlateParser parser = new PlateParser();
 
-		Plate plate = new Plate(1);
+	private PlateParser parser;
+	private Plate plate;
+	private PlateWriter writer;
+
+	@Override
+	protected void setUp() throws Exception {
+		parser = new PlateParser();
+		plate = new Plate(1);
+		writer = new PlateWriter();
+	}
+
+	public void testParse() throws Exception {
+
 		plate.setCount(2);
 		DirectionSequence sequence = new DirectionSequence();
 		sequence.append(MapDirection.SOUTH);
 		sequence.append(MapDirection.NORTH);
 
 		plate.setDirectionSequence(sequence);
-
-		PlateWriter writer = new PlateWriter();
 
 		Plate result = parser.parse(writer.write(plate));
 
@@ -31,4 +39,12 @@ public class TestPlateParser extends TestCase {
 		assertEquals(MapDirection.SOUTH, seq.getNextDirection());
 		assertEquals(MapDirection.NORTH, seq.getNextDirection());
 	}
+
+	public void testParseWithEmptyDirectionSequence() throws Exception {
+
+		Plate result = parser.parse(writer.write(plate));
+		assertNotNull(result.getDirectionSequence().getNextDirection());
+
+	}
+
 }

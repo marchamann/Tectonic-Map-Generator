@@ -155,14 +155,13 @@ public class FileMenu extends JMenu {
 						fr = new FileReader(file);
 
 						TectonicMapReader reader = new TectonicMapReader();
-						System.out.println("Loading...");
 						TectonicMap map = reader.read(fr);
 						screen.setTectonicMap(map);
 						screen.setCurrentColourerMap(map);
-						System.out.println("...done");
 						fr.close();
 						screen.updateImage();
 						screen.setProgressText("Loading...done.");
+						screen.setEnabledControls(true);
 					} catch (IOException ioe) {
 						throw new RuntimeException(ioe);
 					}
